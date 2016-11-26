@@ -8,7 +8,7 @@ A web app built with:
 
 *Frontend* - **Leaflet mapping framework** with data analysis + metadata + extra visualizations - use of **D3js** etc
 
-*Data Analysis* - **Kernel Density Estimations (KDE)*, *Gaussian Mixture Model (GMM)**, etc 
+*Data Analysis* - **Kernel Density Estimations (KDE)**, **Gaussian Mixture Model (GMM)**, etc 
 
 ### Data Analysis
 
