@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class = "row">
+    <div class = "col-md-6">
+        <h2>Collection Name</h2>
+        <br>
+        <p id = "collectContent">{{ collectName }}</p>
+        <hr>
+        <h2>File Upload Name</h2>
+        <br>
+        <p id = "fileNamee">{{ filenamee }}</p>
+    </div>
+    <div class = "col-md-6">
+        <h2>Number of Citations</h2>
+        <br>
+        <p>{{ fileSize }}</p>
+        <hr>
+        <h2>Query this database</h2>
+        <br>
+        <a href="/getquery">Go to query page</a>
+    </div>
+</div>
+{% endblock body %}

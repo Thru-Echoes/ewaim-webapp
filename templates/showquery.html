@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class = "row">
+    <div class = "col-md-12">
+        <h2>Query Results</h2>
+        <br>
+        <ul id = "queryContent">
+        {% for entry in queryReturn %}
+            <h4>Entry {{ entry['Counter'] }}:</h4>
+            <hr>
+            <li class = "tag-entry"><b>Tag:</b> {{ entry['Tag'] }}</li>
+            <li class = "author-entry"><b>Authors:</b> {{ entry['Authors'] }}</li>
+            <li class = "editor-entry"><b>Editors:</b> {{ entry['Editors'] }}</li>
+            <li class = "journal-entry"><b>Journal:</b> {{ entry['Journal'] }}</li>
+            <li class = "book-entry"><b>Book:</b> {{ entry['Book'] }}</li>
+            <li class = "volume-entry"><b>Volume:</b> {{ entry['Volume'] }}</li>
+            <li class = "pages-entry"><b>Pages:</b> {{ entry['Pages'] }}</li>
+            <li class = "title-entry"><b>Title:</b> {{ entry['Title'] }}</li>
+            <li class = "year-entry"><b>Year:</b> {{ entry['Year'] }}</li>
+            <li class = "collection-entry"><b>Collection:</b> {{ entry['Collection'] }}</li>
+            <br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
