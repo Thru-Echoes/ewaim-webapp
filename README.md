@@ -11,7 +11,7 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 #### 1.1 Setup
 
 ```
-    $ python3 setup.py install 
+    $ python3 setup.py install
 ```
 
 #### 1.2 Test
