@@ -4,6 +4,7 @@ from werkzeug import secure_filename
 from flask_bootstrap import Bootstrap
 import os
 from static.py.bibUtil import *
+from ewaim import calculate
 
 import errno
 
@@ -39,6 +40,35 @@ app.config.from_object(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+# Create route for showcalc html
+@app.route("/showcalc", methods = ["GET", "POST"])
+def showcalc():
+    return render_template("showcalc.html")
+
+# Create route for calc html
+@app.route("/calc", methods = ["GET", "POST"])
+def calc():
+
+    if request.method == "POST":
+        if ((request.form['query_string'] is None) or (len(request.form['query_string']) == 0)):
+            flash("Bad query - could not interpret.")
+            return redirect(request.url)
+
+        if request.form['query_string']:
+
+            try:
+                simple_math = request.form['query_string']
+                calc_result = calculate(simple_math)
+                return render_template("showcalc.html", simple_math = simple_math, calc_result = calc_result)
+            except:
+                flash("Something went wrong...")
+                return redirect(request.url)
+
+    return render_template("calc.html")
+
+
+######## OLD
 
 # Creeate route for fileupload html
 @app.route("/fileupload", methods = ["GET", "POST"])

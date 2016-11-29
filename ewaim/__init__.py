@@ -25,7 +25,8 @@ def calculate(simple_math, f_flag = False):
 
 if __name__ == '__main__':
     cli_args = check_args()
-    raw_result = calculate(cli_args[0], f_flag = cli_args[1])
-    print('\n-----------------')
-    print('The result is: ', raw_result)
-    print('-----------------\n')
+    #raw_result = calculate(cli_args[0], f_flag = cli_args[1])
+    #print('\n-----------------')
+    #print('The result is: ', raw_result)
+    #print('-----------------\n')
+    calculate(cli_args[0], f_flag = cli_args[1])

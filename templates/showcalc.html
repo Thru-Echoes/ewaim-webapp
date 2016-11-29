@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class = "row">
+    <div class = "col-md-6">
+        <h2>Simple Math</h2>
+        <br>
+        <p id = "simple_math">{{ simple_math }}</p>
+    </div>
+    <div class = "col-md-6">
+        <h2>Results</h2>
+        <br>
+        <p id = "calc_result">{{ calc_result }}</p>
+        <br>
+        <a href="/calc">Try another</a>
+    </div>
+</div>
+{% endblock body %}
