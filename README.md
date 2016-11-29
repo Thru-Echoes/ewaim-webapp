@@ -1,3 +1,6 @@
+<img src="https://travis-ci.org/Thru-Echoes/ewaim-webapp.svg?branch=master">
+
+
 # EWAIM: an Extensible Web App for Interactive Mapping
 
 The **leaf-tut** branch follows the *Leaflet x Flask (Python) x Javascript* tutorial of building a web app to interface with the LA riot deaths.
