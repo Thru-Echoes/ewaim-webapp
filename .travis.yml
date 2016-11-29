@@ -1,0 +1,11 @@
+language: python
+sudo: required
+matrix:
+  include:
+  - os: linux
+    dist: trusty
+python: '3.5'
+before_install:
+    - chmod +x ./.travis/test.sh
+script:
+    - "./.travis/test.sh"
