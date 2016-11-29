@@ -7,7 +7,7 @@ def all_tests_suite():
     def get_suite():
         return additional_tests(
             unittest.TestLoader().loadTestsFromNames([
-                'ewaim.tests.test_app'
+                'ewaim.tests.test_ewaim'
             ]))
     suite = get_suite()
     import calcalc
