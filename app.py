@@ -180,4 +180,4 @@ def showquery():
 # '@app.route("/FOOBAR") ... def FOOBAR(): ... '
 
 if __name__ == "__main__":
-    app.run(port = 8888)
+    app.run(port = 8888, debug = True, use_reloader = True)
