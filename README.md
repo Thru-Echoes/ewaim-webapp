@@ -45,4 +45,30 @@ A parametric probability density function represented as a weighted sum of Gauss
 
 ##### More
 
+##### Database note
+
+Commands for using the database I uploaded:
+
+```bash
+  createdb tweets template template_postgis
+  gunzip -c tweets_db.gz | psql tweets
+```
+
+If you don't have `postgis` template, please do this first:
+
+```bash
+  createdb template_postgis
+  psql template_postgis
+  >>> create extension postgis;
+  >>> create extension postgis_topology;
+```
+
+To install `postgresql` and `postgis`:
+
+OSX:
+```bash
+  brew install postgresql postgis
+```
+
+
 *Coming soon...*
