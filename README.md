@@ -50,7 +50,7 @@ A parametric probability density function represented as a weighted sum of Gauss
 Commands for using the database I uploaded:
 
 ```bash
-  createdb tweets template template_postgis
+  createdb tweets -T template_postgis
   gunzip -c tweets_db.gz | psql tweets
 ```
 
