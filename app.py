@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import abort
 from werkzeug import secure_filename
 from flask_bootstrap import Bootstrap
 import os
 from static.py.bibUtil import *
 from ewaim import calculate
-
+import csv
 import errno
-
-def makePathExist(path):
-    try:
-        os.makedirs(path)
-    except OSError as exception:
-        if exception.errno != errno.EEXIST:
-            raise
-
-makePathExist('static/db')
+import json
 
 ############################################################
 ############################################################
@@ -31,6 +24,41 @@ SECRET_KEY = "stars_and_moon"
 DEBUG = True
 app.config.from_object(__name__)
 
+## Utility functions
+def makePathExist(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+
+makePathExist('static/db')
+
+def get_csv():
+    csv_path = "./static/csv/la-riots-deaths.csv"
+    csv_file = open(csv_path, 'r')
+    csv_obj = csv.DictReader(csv_file)
+    return list(csv_obj)
+
+sample_data = [{
+  "name": "bootstrap-table",
+  "commits": "10",
+  "attention": "122",
+  "uneven": "An extended Bootstrap table"
+},
+ {
+  "name": "multiple-select",
+  "commits": "288",
+  "attention": "20",
+  "uneven": "A jQuery plugin"
+}, {
+  "name": "Testing",
+  "commits": "340",
+  "attention": "20",
+  "uneven": "For test"
+}]
+
+
 ############################################################
 ############################################################
 ############################################################
@@ -39,14 +67,22 @@ app.config.from_object(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    obj_list = get_csv()
+    return render_template("index.html", obj_list = obj_list, sample_data = sample_data)
 
-# Create route for showcalc html
+@app.route("/<row_id>/")
+def detail(row_id):
+    obj_list = get_csv()
+    for row in obj_list:
+        if row['id'] == row_id:
+            return render_template("detail.html", obj_row = row)
+
+    abort(404)
+
 @app.route("/showcalc", methods = ["GET", "POST"])
 def showcalc():
     return render_template("showcalc.html")
 
-# Create route for calc html
 @app.route("/calc", methods = ["GET", "POST"])
 def calc():
 
@@ -68,7 +104,7 @@ def calc():
     return render_template("calc.html")
 
 
-######## OLD
+######## Below route as reference (may use)
 
 # Creeate route for fileupload html
 @app.route("/fileupload", methods = ["GET", "POST"])
@@ -119,65 +155,10 @@ def fileupload():
 
     return render_template("fileupload.html")
 
-# Creeate route for getquery html
-@app.route("/getquery", methods = ["GET", "POST"])
-def getquery():
-
-    dataExist = True if table_check() else False
-
-    if request.method == "POST":
-
-        if ((request.form['queryString'] is None) or (len(request.form['queryString']) == 0)):
-            flash("Bad query - could not interpret.")
-            return redirect(request.url)
-
-        if request.form['queryString']:
-            qString = request.form['queryString']
-
-            try:
-                tmpReturn = query(qString)
-                qReturn = []
-
-                counter = 1
-                for i in tmpReturn:
-                    tmpDict = {
-                        "Tag" : i[0],
-                        "Authors" : i[1],
-                        "Editors" : i[2],
-                        "Journal" : i[3],
-                        "Book" : i[4],
-                        "Volume" : i[5],
-                        "Pages" : i[6],
-                        "Title" : i[7],
-                        "Year" : i[8],
-                        "Collection" : i[9],
-                        "Counter" : counter
-                    }
-                    qReturn.append(tmpDict)
-                    counter += 1
-
-                return render_template("showquery.html", queryReturn = qReturn)
-            except:
-                flash("Exception raised. Please try again.")
-                return redirect(request.url)
-
-    return render_template("getquery.html", dataExist = dataExist)
-
 # Creeate route for showresults html
 @app.route("/showresults", methods = ["GET", "POST"])
 def showresults():
     return render_template("showresults.html")
 
-# Creeate route for showresults html
-@app.route("/showquery", methods = ["GET", "POST"])
-def showquery():
-    return render_template("showquery.html")
-
-## Note: this script is doing the equivalent of a NodeJS project
-# files 'app.js' and all render middlewares in 'routes/'
-
-# Create new pages with Middleware augment via
-# '@app.route("/FOOBAR") ... def FOOBAR(): ... '
-
 if __name__ == "__main__":
-    app.run(port = 8888)
+    app.run(port = 8888, debug = True, use_reloader = True)
