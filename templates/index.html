@@ -4,46 +4,72 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Welcome to EWAIM: <small>an <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
-            <h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
+            <h1 style="text-align: center;">Welcome to EWAIM</h1>
+            <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
+            <!--h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
             <br>
             <hr>
         </div>
     </div>
-</div>
-<div class="fluid-container" id="map-container">
     <div class="row">
-        <div id="map-id" style="width:100%;"></div>
-        <script type="text/javascript">
-            $(window).load(function() {
-                var csv_data = {{ obj_list|tojson }};
-                $(function() {
-                    $("#csv_table").bootstrapTable({
-                        data: csv_data
-                    });
+        <div class="col-md-12">
+            <h3>Select the database to use:</h3>
+            <br>
+            <div class="radio">
+                <label><input id="use-carbon" type="radio" name="optradio">Use carbon sample data</label>
+            </div>
+            <div class="radio">
+                <label><input id="use-twitter" type="radio" name="optradio">Use Twitter sample data</label>
+            </div>
+            <div class="radio disabled">
+                <label><input id="use-upload" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
+            </div-->
+        </div>
+    </div>
+</div>
+<!--div class="fluid-container" id="map-container"-->
+<div class="container" id="map-container">
+    <div id="map-id" style="width:100%;"></div>
+    <script type="text/javascript">
+        $(window).load(function() {
+            var csv_data = {{ obj_list|tojson }};
+            $(function() {
+                $("#csv_table").bootstrapTable({
+                    data: csv_data
                 });
             });
+        });
 
-            $(document).ready(function($) {
-                $(".click-row").click(function() {
-                    window.document.location = $(this).data("href");
-                    //window.location = $(this).data("url");
-                });
+        $(document).ready(function($) {
+            $(".click-row").click(function() {
+                window.document.location = $(this).data("href");
+                //window.location = $(this).data("url");
             });
+        });
 
-            //var map = L.map('map-id').setView([34.055, -118.35], 9);
-            var map = L.map('map-id').setView([36.23418283, -116.8341902], 7);
-            var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
-            });
-            map.addLayer(osmLayer);
+        var init_lat = 36.23418283;
+        var init_long = -116.8341902;
+        var init_zoom = 7;
+        var is_point = true;
+        var is_polygon = false;
+        var is_popup = {{ is_popup }};
 
-            /* Add US state polygons */
+        //var map = L.map('map-id').setView([34.055, -118.35], 9);
+        var map = L.map('map-id').setView([init_lat, init_long], init_zoom);
+        var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
+        });
+        map.addLayer(osmLayer);
+
+        /* Add US state polygons */
+        if (is_polygon) {
             var us_states = {
             }
+        }
 
-            /* Add point data */
+        /* Add point data */
+        if (is_point) {
             var point_data = {
                 "type": "FeatureCollection",
                 "features": [
@@ -63,17 +89,22 @@
                     {% endfor %}
                 ]
             };
-            // Show popup for victim name
-            var point_data_layer = L.geoJson(point_data, {
-                onEachFeature: function(feature, layer) {
-                    layer.bindPopup(
-                        '<a href="' + feature.properties.pedon_key + '/">' +
-                        feature.properties.site_id + '</a>');
-                }
-            });
-            map.addLayer(point_data_layer);
-        </script>
-    </div>
+            if (is_popup) {
+                // Show popup for victim name
+                var point_data_layer = L.geoJson(point_data, {
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(
+                            '<a href="' + feature.properties.pedon_key + '/">' +
+                            feature.properties.site_id + '</a>');
+                    }
+                });
+                map.addLayer(point_data_layer);
+            } else {
+                var point_data_layer = L.geoJson(point_data);
+                map.addLayer(point_data_layer);
+            }
+        }
+    </script>
 </div>
 <div class="container">
     <div class="row">

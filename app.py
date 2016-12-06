@@ -63,9 +63,10 @@ def get_csv():
 @app.route("/")
 def index():
     obj_list = get_csv()
+    is_popup = "true"
     #obj_sql = query_sql()
     #county_plus = county_topo()
-    return render_template("index.html", obj_list = obj_list)
+    return render_template("index.html", obj_list = obj_list, is_popup = is_popup)
 
 # Can use detail page for species page PEARL
 #@app.route("/<row_id>/")
@@ -149,7 +150,6 @@ def fileupload():
                 else:
                     collectName = "Default"
 
-
                 # Create table and pass in collection name
                 create_table(collectName, bibDB)
 
@@ -168,4 +168,4 @@ def showresults():
     return render_template("showresults.html")
 
 if __name__ == "__main__":
-    app.run(port = 8888, debug = True, use_reloader = True)
+    app.run(port = 5555, debug = True, use_reloader = True)

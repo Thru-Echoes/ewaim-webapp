@@ -11,19 +11,18 @@
         </div>
     </div>
 </div>
-<div class="fluid-container" id="single-map-container">
-    <div class="row">
-        <div id="single-point-map" style="width:100%;"></div>
-        <script type="text/javascript">
-            var map = L.map('single-point-map').setView([{{ obj_row.lat }}, {{ obj_row.long }}], 9);
-            var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors.'
-            });
-            map.addLayer(osmLayer);
-            var marker = L.marker([{{ obj_row.lat }}, {{ obj_row.long }}]).addTo(map);
-        </script>
-    </div>
+<!--div class="fluid-container" id="single-map-container"-->
+<div class="container" id="single-map-container">
+    <div id="single-point-map" style="width:100%;"></div>
+    <script type="text/javascript">
+        var map = L.map('single-point-map').setView([{{ obj_row.lat }}, {{ obj_row.long }}], 9);
+        var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors.'
+        });
+        map.addLayer(osmLayer);
+        var marker = L.marker([{{ obj_row.lat }}, {{ obj_row.long }}]).addTo(map);
+    </script>
 </div>
 
 {% endblock body %}
