@@ -100,6 +100,24 @@ h2 {
     height: 750px;
 }
 
+#single-point-map {
+    height: 750px;
+}
+
+#single-map-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#map-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 /*************************************************
 ********************* FOOTER *********************
 *************************************************/

@@ -23,7 +23,15 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
     $ python3 setup.py test
 ```
 
-### Components
+#### 1.3 Usage Outline
+
+1. On home page, select 1 of 2 databases to connect to
+    * either **Tweets (geom points)** or **PEARL (polygons)**
+2. After 1, home page will show a breakdown + title etc of the db
+3. AddLayers to maps via checkboxes as **county, states, countries, or NA** in Javscript (*Leaflet*)
+4. ...
+
+## 2 Web App Components
 
 A web app built with:
 
@@ -33,7 +41,7 @@ A web app built with:
 
 *Data Analysis* - **Kernel Density Estimations (KDE)**, **Gaussian Mixture Model (GMM)**, etc
 
-### Data Analysis
+## 3 Data Analysis
 
 ##### KDE
 
@@ -45,7 +53,9 @@ A parametric probability density function represented as a weighted sum of Gauss
 
 ##### More
 
-##### Database note
+Coming soon...
+
+## 4 Database Note
 
 Commands for using the database I uploaded:
 

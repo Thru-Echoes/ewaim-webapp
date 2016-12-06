@@ -9,12 +9,25 @@ from ewaim import calculate
 import csv
 import errno
 import json
+import psycopg2 as psy
 
 ############################################################
 ############################################################
 ############################################################
 
 ## Init the app
+connection = psy.connect('dbname = tweets1k host = localhost')
+cursor = connection.cursor()
+
+def query_sql():
+    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
+
+def county_topo():
+    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
 UPLOAD_FOLDER = '/tmp/'
 app = Flask(__name__)
@@ -35,29 +48,11 @@ def makePathExist(path):
 makePathExist('static/db')
 
 def get_csv():
-    csv_path = "./static/csv/la-riots-deaths.csv"
+    #csv_path = "./static/csv/la-riots-deaths.csv"
+    csv_path = "./static/csv/carbon_sample_sm.csv"
     csv_file = open(csv_path, 'r')
     csv_obj = csv.DictReader(csv_file)
     return list(csv_obj)
-
-sample_data = [{
-  "name": "bootstrap-table",
-  "commits": "10",
-  "attention": "122",
-  "uneven": "An extended Bootstrap table"
-},
- {
-  "name": "multiple-select",
-  "commits": "288",
-  "attention": "20",
-  "uneven": "A jQuery plugin"
-}, {
-  "name": "Testing",
-  "commits": "340",
-  "attention": "20",
-  "uneven": "For test"
-}]
-
 
 ############################################################
 ############################################################
@@ -68,13 +63,25 @@ sample_data = [{
 @app.route("/")
 def index():
     obj_list = get_csv()
-    return render_template("index.html", obj_list = obj_list, sample_data = sample_data)
+    #obj_sql = query_sql()
+    #county_plus = county_topo()
+    return render_template("index.html", obj_list = obj_list)
 
-@app.route("/<row_id>/")
-def detail(row_id):
+# Can use detail page for species page PEARL
+#@app.route("/<row_id>/")
+#def detail(row_id):
+#    obj_list = get_csv()
+#    for row in obj_list:
+#        if row['id'] == row_id:
+#            return render_template("detail.html", obj_row = row)
+#
+#    abort(404)
+
+@app.route("/<pedon_key>/")
+def detail(pedon_key):
     obj_list = get_csv()
     for row in obj_list:
-        if row['id'] == row_id:
+        if row['pedon_key'] == pedon_key:
             return render_template("detail.html", obj_row = row)
 
     abort(404)

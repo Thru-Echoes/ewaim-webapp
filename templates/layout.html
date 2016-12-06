@@ -64,16 +64,10 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                {% for message in get_flashed_messages() %}
-                  <div class=flash>{{ message }}</div>
-                {% endfor %}
-                {% block body %}{% endblock %}
-            </div>
-        </div>
-    </div>
+    {% for message in get_flashed_messages() %}
+      <div class=flash>{{ message }}</div>
+    {% endfor %}
+    {% block body %}{% endblock %}
 
     <!-- FOOTER -->
     <!--footer class="footer">

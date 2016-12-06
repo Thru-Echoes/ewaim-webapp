@@ -1,31 +1,29 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h1>{{ obj_row.full_name }}:</h1>
-<br>
-<h4>a {{ obj_row.age }} year old, {{obj_row.race }} {{ obj_row.gender|lower }}
-    died on {{ obj_row.date }} in a {{ obj_row.type|lower }} at {{ obj_row.address }}
-    in {{ obj_row.neighborhood }}.
-</h4>
-<br>
-<div id="map-id"></div>
-<!--div id="getFieldsRow" class="row">
-    <div id="getFieldsCol" class="col-md-12">
-        <hr>
-        <form role="form" method='POST' action=''>
-            <div class="form-group">
-                <input type="text" name="query_string" class="form-control" id="query-box" placeholder="Enter query" style="max-width: 300px;" autofocus required>
-            </div>
-            <button type="submit" class="btn btn-default">Ask simple math</button>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Pedon Key: {{ obj_row.pedon_key }}</h1>
+            <br>
+            <h3>Total Carbon: {{ obj_row.Total_C_kg }} <i>kg</i></h3>
+            <br>
+        </div>
     </div>
-</div-->
-
-<script>
-// Here is some Javascript added to our Flask HTML page
-/*var foo = 1738;
-console.log("foo: ", foo);
-debugger;*/
-</script>
+</div>
+<div class="fluid-container" id="single-map-container">
+    <div class="row">
+        <div id="single-point-map" style="width:100%;"></div>
+        <script type="text/javascript">
+            var map = L.map('single-point-map').setView([{{ obj_row.lat }}, {{ obj_row.long }}], 9);
+            var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors.'
+            });
+            map.addLayer(osmLayer);
+            var marker = L.marker([{{ obj_row.lat }}, {{ obj_row.long }}]).addTo(map);
+        </script>
+    </div>
+</div>
 
 {% endblock body %}

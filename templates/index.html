@@ -1,100 +1,116 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2>Welcome to EWAIM: <small>an <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
-<h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
-<br>
-<hr>
-<div id="map-id" style="width:100%;"></div>
-<script type="text/javascript">
-    $(window).load(function() {
-        var csv_data = {{ obj_list|tojson }};
-        // EXAMPLE: var csv_data = {{ sample_data|tojson }};
-
-        $(function() {
-            $("#csv_table").bootstrapTable({
-                data: csv_data
-            });
-        });
-    });
-
-    $(document).ready(function($) {
-        $(".click-row").click(function() {
-            window.document.location = $(this).data("href");
-            //window.location = $(this).data("url");
-        });
-    });
-
-    var map = L.map('map-id').setView([34.055, -118.35], 9);
-    var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
-    });
-    map.addLayer(osmLayer);
-    var data = {
-        "type": "FeatureCollection",
-        "features": [
-            {% for obj in obj_list %}
-            {
-                "type": "Feature",
-                "properties": {
-                "full_name": "{{ obj.full_name }}",
-                "id": "{{ obj.id }}"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [{{ obj.x }}, {{ obj.y }}]
-            }
-            }{% if not loop.last %}, {% endif %}
-            {% endfor %}
-        ]
-    };
-    // Show popup for victim name
-    var dataLayer = L.geoJson(data, {
-        onEachFeature: function(feature, layer) {
-            layer.bindPopup(
-                '<a href="' + feature.properties.id + '/">' +
-                feature.properties.full_name + '</a>');
-        }
-    });
-    map.addLayer(dataLayer);
-</script>
-<div class="row">
-    <div class="col-md-12">
-        <h1 style="text-align: center;">Deaths during the L.A. riots</h1>
-        <br>
-        <!--{{ obj_list }}-->
-        <div class="container" style="padding: 10px; ">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Welcome to EWAIM: <small>an <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
+            <h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
             <br>
-            <table id="csv_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
-                <!--thead>
-                    <tr>
-                        <th data-field="name" data-sortable="true">Repo</th>
-                        <th data-field="commits" data-sortable="true">commits</th>
-                        <th data-field="attention" data-sortable="true">attention</th>
-                        <th data-field="uneven" data-sortable="true">uneven</th>
-                    </tr>
-                </thead-->
-                <thead>
-                    <tr class="click-row" data-href="/">
-                        <th data-field="id" data-sortable="true">Id</th>
-                        <th data-field="full_name" data-sortable="true">Full Name</th>
-                        <th data-field="date" data-sortable="true">Date</th>
-                        <th data-field="type" data-sortable="true">Type</th>
-                        <th data-field="address" data-sortable="true">Address</th>
-                        <th data-field="age" data-sortable="true">Age</th>
-                        <th data-field="gender" data-sortable="true">Gender</th>
-                        <th data-field="race" data-sortable="true">Race</th>
-                    </tr>
-                </thead>
-            </table>
+            <hr>
         </div>
     </div>
 </div>
-<h3>Ask simple math</h3>
-<br>
-<li><a href="/calc">Ask simple math</a></li>
-<li><a href="/fileupload">Go to file upload page</a></li>
-<br>
+<div class="fluid-container" id="map-container">
+    <div class="row">
+        <div id="map-id" style="width:100%;"></div>
+        <script type="text/javascript">
+            $(window).load(function() {
+                var csv_data = {{ obj_list|tojson }};
+                $(function() {
+                    $("#csv_table").bootstrapTable({
+                        data: csv_data
+                    });
+                });
+            });
+
+            $(document).ready(function($) {
+                $(".click-row").click(function() {
+                    window.document.location = $(this).data("href");
+                    //window.location = $(this).data("url");
+                });
+            });
+
+            //var map = L.map('map-id').setView([34.055, -118.35], 9);
+            var map = L.map('map-id').setView([36.23418283, -116.8341902], 7);
+            var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
+            });
+            map.addLayer(osmLayer);
+
+            /* Add US state polygons */
+            var us_states = {
+            }
+
+            /* Add point data */
+            var point_data = {
+                "type": "FeatureCollection",
+                "features": [
+                    {% for obj in obj_list %}
+                    {
+                        "type": "Feature",
+                        "properties": {
+                        "pedon_key": "{{ obj.pedon_key }}",
+                        "tot_carbon": "{{ obj.Total_C_kg }}",
+                        "site_id": "{{ obj.user_site_id }}"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [{{ obj.long }}, {{ obj.lat }}]
+                    }
+                    }{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                ]
+            };
+            // Show popup for victim name
+            var point_data_layer = L.geoJson(point_data, {
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup(
+                        '<a href="' + feature.properties.pedon_key + '/">' +
+                        feature.properties.site_id + '</a>');
+                }
+            });
+            map.addLayer(point_data_layer);
+        </script>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="text-align: center;">Carbon Samples</h1>
+            <br>
+            <!--{{ obj_list }}-->
+            <div class="container" style="padding: 10px; ">
+                <br>
+                <table id="csv_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
+                    <thead>
+                        <tr class="click-row" data-href="/">
+                            <th data-field="user_site_id" data-sortable="true">Site ID</th>
+                            <th data-field="pedon_key" data-sortable="true">Pedon Key</th>
+                            <th data-field="Total_C_kg" data-sortable="true">Total Carbon (kg)</th>
+                            <th data-field="lat" data-sortable="true">Latitude</th>
+                            <th data-field="long" data-sortable="true">Longitude</th>
+                            <th data-field="elevation" data-sortable="true">Elevation</th>
+                            <th data-field="precip" data-sortable="true">Precipitation</th>
+                            <th data-field="temp" data-sortable="true">Temperature</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Ask simple math</h3>
+            <br>
+            <li><a href="/calc">Ask simple math</a></li>
+            <!--li><a href="/fileupload">Go to file upload page</a></li-->
+            <br>
+        </div>
+    </div>
+</div>
 
 {% endblock body %}
