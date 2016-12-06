@@ -104,6 +104,10 @@ h2 {
     height: 750px;
 }
 
+#map-id-giant {
+    height: 750px;
+}
+
 #single-map-container {
     padding-right: 15px;
     padding-left: 15px;
@@ -116,6 +120,35 @@ h2 {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+}
+
+#giant-map-container {
+
+}
+
+/*********************************************
+* Text over Leaflet map
+*********************************************/
+
+.map-box {
+    position: relative;
+}
+
+.map-box .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.map-box .overlay .btn {
+    pointer-events: auto;
+}
+
+.asd {
+    height: 200px;
+    border: 1px solid #444;
+    background-color: rgba(0,0,0,0.2);
 }
 
 /*************************************************

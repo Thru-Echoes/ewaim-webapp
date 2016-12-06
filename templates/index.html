@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <h1 style="text-align: center;">Welcome to EWAIM</h1>
             <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
-            <!--h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
+            <h5>Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
             <br>
             <hr>
         </div>
@@ -23,7 +23,7 @@
             </div>
             <div class="radio disabled">
                 <label><input id="use-upload" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
-            </div-->
+            </div>
         </div>
     </div>
 </div>
@@ -140,6 +140,90 @@
             <li><a href="/calc">Ask simple math</a></li>
             <!--li><a href="/fileupload">Go to file upload page</a></li-->
             <br>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="giant-map-container">
+    <div class="map-box">
+        <div class="row-fluid" id="map-id-giant" style="width:100%;"></div>
+        <script type="text/javascript">
+            var init_lat = 36.23418283;
+            var init_long = -116.8341902;
+            var init_zoom = 7;
+            var is_point = true;
+            var is_polygon = false;
+            var is_popup = {{ is_popup }};
+
+            //var map = L.map('map-id').setView([34.055, -118.35], 9);
+            var map_giant = L.map('map-id-giant').setView([init_lat, init_long], init_zoom);
+            var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'asd',
+                /*attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'*/
+            });
+            map_giant.addLayer(osmLayer);
+
+            /* Add US state polygons */
+            if (is_polygon) {
+                var us_states = {
+                }
+            }
+
+            /* Add point data */
+            if (is_point) {
+                var point_data = {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {% for obj in obj_list %}
+                        {
+                            "type": "Feature",
+                            "properties": {
+                            "pedon_key": "{{ obj.pedon_key }}",
+                            "tot_carbon": "{{ obj.Total_C_kg }}",
+                            "site_id": "{{ obj.user_site_id }}"
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [{{ obj.long }}, {{ obj.lat }}]
+                        }
+                        }{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    ]
+                };
+                if (is_popup) {
+                    // Show popup for victim name
+                    var point_data_layer = L.geoJson(point_data, {
+                        onEachFeature: function(feature, layer) {
+                            layer.bindPopup(
+                                '<a href="' + feature.properties.pedon_key + '/">' +
+                                feature.properties.site_id + '</a>');
+                        }
+                    });
+                    map_giant.addLayer(point_data_layer);
+                } else {
+                    var point_data_layer = L.geoJson(point_data);
+                    map_giant.addLayer(point_data_layer);
+                }
+            }
+        </script>
+        <div class="row-fluid overlay asd">
+            <h3>Select the database to use:</h3>
+            <div class="span1">
+                <button class="btn btn-primary">Use this one...</button>
+            </div>
+            <div class="span2">
+                <button class="btn">...or this one.</button>
+            </div>
+            <br>
+            <!--div class="radio">
+                <label><input id="use-carbon2" type="radio" name="optradio">Use carbon sample data</label>
+            </div>
+            <div class="radio">
+                <label><input id="use-twitter2" type="radio" name="optradio">Use Twitter sample data</label>
+            </div>
+            <div class="radio disabled">
+                <label><input id="use-upload2" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
+            </div-->
         </div>
     </div>
 </div>
