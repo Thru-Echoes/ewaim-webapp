@@ -20,11 +20,14 @@
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <!-- US States JSON -->
+    <script src="{{ url_for('static', filename='db/us_states.js') }}"></script>
 </head>
 <style>
     #top_push {
         height: 60px;
     }
+    .ghbtns { position: relative; top: 4px; margin-left: 5px; }
 </style>
 <body>
     <!-- NAVIGATION BAR -->

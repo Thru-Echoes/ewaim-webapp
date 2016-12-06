@@ -97,7 +97,7 @@ h2 {
 *********************************************/
 
 #map-id {
-    height: 750px;
+    height: 900px;
 }
 
 #single-point-map {
@@ -149,6 +149,49 @@ h2 {
     height: 200px;
     border: 1px solid #444;
     background-color: rgba(0,0,0,0.2);
+}
+
+.state_info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    width: 200px;
+    height: 350px;
+}
+.state_info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.point_info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    width: 100%;
+    height: 350px;
+}
+.point_info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.cntr_info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    width: 100%;
+    height: 250px;
+}
+.cntr_info h4 {
+    margin: 0 0 5px;
+    color: #777;
 }
 
 /*************************************************

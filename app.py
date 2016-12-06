@@ -16,18 +16,18 @@ import psycopg2 as psy
 ############################################################
 
 ## Init the app
-connection = psy.connect('dbname = tweets1k host = localhost')
-cursor = connection.cursor()
+#connection = psy.connect('dbname = tweets1k host = localhost')
+#cursor = connection.cursor()
 
-def query_sql():
-    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
-    cursor.execute(sql_cmd)
-    return cursor.fetchall()
+#def query_sql():
+#    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
+#    cursor.execute(sql_cmd)
+#    return cursor.fetchall()
 
-def county_topo():
-    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
-    cursor.execute(sql_cmd)
-    return cursor.fetchall()
+#def county_topo():
+#    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
+#    cursor.execute(sql_cmd)
+#    return cursor.fetchall()
 
 UPLOAD_FOLDER = '/tmp/'
 app = Flask(__name__)
@@ -54,6 +54,10 @@ def get_csv():
     csv_obj = csv.DictReader(csv_file)
     return list(csv_obj)
 
+def mean_lat_long(obj_csv):
+    print("obj_csv: ", obj_csv)
+
+
 ############################################################
 ############################################################
 ############################################################
@@ -63,10 +67,21 @@ def get_csv():
 @app.route("/")
 def index():
     obj_list = get_csv()
-    is_popup = "true"
+    ## obj_latlong = mean_lat_long(obj_list)
+    init_zoom = 6
+    show_points = "true"
+    show_states = "true"
+    show_popup = "true"
+    obj_show = {
+        "init_zoom" : init_zoom,
+        "show_points" : show_points,
+        "show_states" : show_states,
+        "show_popup" : show_popup,
+
+    }
     #obj_sql = query_sql()
     #county_plus = county_topo()
-    return render_template("index.html", obj_list = obj_list, is_popup = is_popup)
+    return render_template("index.html", obj_list = obj_list, obj_show = obj_show)
 
 # Can use detail page for species page PEARL
 #@app.route("/<row_id>/")
