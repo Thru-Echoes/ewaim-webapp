@@ -69,10 +69,12 @@ def index():
     obj_list = get_csv()
     ## obj_latlong = mean_lat_long(obj_list)
     init_zoom = 6
+    data_name = "Carbon Samples"
     show_points = "true"
     show_states = "true"
     show_popup = "true"
     obj_show = {
+        "data_name" : data_name,
         "init_zoom" : init_zoom,
         "show_points" : show_points,
         "show_states" : show_states,

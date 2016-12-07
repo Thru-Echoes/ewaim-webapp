@@ -1,6 +1,7 @@
 {% extends "nav_layout.html" %}
 
 {% block body %}
+<div id="push-top-index" style="height: 100px"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -51,6 +52,7 @@
         var state_info = L.control({position: 'topright'});
         var point_info = L.control({position: 'bottomright'});
         var cntr_info = L.control({position: 'bottomleft'});
+
         state_info.onAdd = function(map) {
             this._div = L.DomUtil.create('div', 'state_info'); // create a div with a class "state_info"
             this.state_update();
@@ -91,15 +93,23 @@
         };
         cntr_info.cntr_update = function(props) {
             this._div.innerHTML = '<div class="row">' +
-                '<div class="col-md-12"><h3>Select the database to use:</h3><br>' +
-                '<div class="radio"><label><input id="use-carbon" type="radio" name="optradio">' +
-                'Use carbon sample data</label></div><div class="radio">' +
-                '<label><input id="use-twitter" type="radio" name="optradio">Use Twitter sample data</label>' +
-                '</div><div class="radio disabled">' +
+                '<div class="col-md-12"><h3>Turn layers on / off:</h3><br>' +
+                '<div class="radio"><label><input id="use-state" type="radio" name="optradio"' +
+                'value="false">Show state boundaries as polygons</label></div><div class="radio">' +
+                '<label><input id="use-points" type="radio" name="optradio" value="false">' +
+                'Show spatial points</label></div><div class="radio disabled">' +
                 '<label><input id="use-upload" type="radio" name="optradio" disabled>' +
                 'Upload your own CSV database <i>(coming soon...)</i></label>' +
                 '</div></div></div>';
         };
+
+        $('#use-states').change(function() {
+            console.log("Show states changed...");
+        });
+        $('#use-points').change(function() {
+            console.log("Show points changed...");
+        });
+
         var init_lat = 36.23418283;
         var init_long = -116.8341902;
         var init_zoom = {{ obj_show['init_zoom'] }};
@@ -109,13 +119,65 @@
 
         //var map = L.map('map-id').setView([34.055, -118.35], 9);
         var map = L.map('map-id').setView([init_lat, init_long], init_zoom);
+
+        // Create additional Control placeholders
+        function addControlPlaceholders(map) {
+            var corners = map._controlCorners,
+                l = 'leaflet-',
+                container = map._controlContainer;
+
+            function createCorner(vSide, hSide, wildSide = false) {
+                if (wildSide) {
+                    var className = l + vSide + ' ' + l + hSide;
+                    corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+                } else {
+                    var className = l + vSide + ' ' + l + hSide;
+                    corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+                }
+            }
+
+            createCorner('verticalcenter', 'left');
+            createCorner('verticalcenter', 'right');
+            createCorner('wildcard', 'left', true);
+        }
+        addControlPlaceholders(map);
+
+        // Change the position of the Zoom Control to a newly created placeholder.
+        //map.zoomControl.setPosition('verticalcenterright');
+
+        // You can also put other controls in the same placeholder.
+        // L.control.scale({position: 'verticalcenterright'}).addTo(map);
+
+        L.control.scale({position: 'topright'}).addTo(map);
+        var intro_info = L.control({position: 'topleft'});
+
+        intro_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'intro_info');
+            this.intro_update();
+            return this._div;
+        };
+        intro_info.intro_update = function(props) {
+            this._div.innerHTML = '<div class="row">' +
+                '<div class="col-md-12"><h3>Turn layers on / off:</h3><br>' +
+                '<div class="radio"><label><input id="use-state" type="radio" name="optradio"' +
+                'value="false">Show state boundaries as polygons</label></div><div class="radio">' +
+                '<label><input id="use-points" type="radio" name="optradio" value="false">' +
+                'Show spatial points</label></div><div class="radio disabled">' +
+                '<label><input id="use-upload" type="radio" name="optradio" disabled>' +
+                'Upload your own CSV database <i>(coming soon...)</i></label>' +
+                '</div></div></div>';
+        };
+
         var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
+            minZoom: 3,
+            maxZoom: 8,
             attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
         });
         map.addLayer(osmLayer);
         state_info.addTo(map);
         cntr_info.addTo(map);
+        intro_info.addTo(map);
+
         geojson = L.geoJson(statesData, {
             style: style,
             onEachFeature: onEachFeature
@@ -177,12 +239,14 @@
             });
             var heat = L.heatLayer(addressPoints).addTo(map);*/
         }
+
+        var this_height = $('#map-id').height();
     </script>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 style="text-align: center;">Carbon Samples</h1>
+            <h1 style="text-align: center;">{{ obj_show['data_name'] }}</h1>
             <br>
             <!--{{ obj_list }}-->
             <div class="container" style="padding: 10px; ">

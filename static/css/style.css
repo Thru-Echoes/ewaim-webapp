@@ -3,7 +3,7 @@
 * Core CSS
 *********************************************/
 
-body {
+/*body {
     font-family: sans-serif;
     background: #eee;
 }
@@ -24,6 +24,7 @@ h1 {
 h2 {
     font-size: 1.2em;
 }
+*/
 
 /*********************************************
 * Class tags for entry boxes
@@ -127,6 +128,45 @@ h2 {
 }
 
 /*********************************************
+* Leaflet map - custom positions
+*********************************************/
+
+.leaflet-verticalcenter .wildcard {
+    position: absolute;
+    top: 25%;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+.leaflet-verticalcenter .leftlet-right {
+    position: absolute;
+    top: 25%;
+}
+
+.leaflet-verticalcenter .leaflet-control {
+    margin-bottom: 10px;
+}
+
+.intro_info .leaflet-control {
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+.leaflet-control-scale {
+    /*margin-left: 50%;
+    margin-right: 50%;
+    padding-top: 15%;*/
+}
+
+.leaflet-wildcard {
+    padding-top: 5%;
+}
+
+.leaflet-control-scale-line {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/*********************************************
 * Text over Leaflet map
 *********************************************/
 
@@ -190,6 +230,20 @@ h2 {
     height: 250px;
 }
 .cntr_info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.intro_info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    /*width: 100%;*/
+    height: 250px;
+}
+.intro_info h4 {
     margin: 0 0 5px;
     color: #777;
 }
