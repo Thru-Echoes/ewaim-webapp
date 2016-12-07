@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "nav_layout.html" %}
 
 {% block body %}
 <div class="container">
@@ -107,8 +107,6 @@
         var is_point = {{ obj_show['show_points'] }};
         var is_states = {{ obj_show['show_states'] }};
         var is_popup = {{ obj_show['show_popup'] }};
-
-        //get_map();
 
         //var map = L.map('map-id').setView([34.055, -118.35], 9);
         var map = L.map('map-id').setView([init_lat, init_long], init_zoom);

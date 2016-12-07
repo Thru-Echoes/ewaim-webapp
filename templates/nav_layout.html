@@ -43,7 +43,6 @@
                 </button>
                 <a class="navbar-brand" href="/">EWAIM</a>
             </div>
-
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Go Home</a></li>
@@ -58,14 +57,7 @@
     		</div>
     	</div>
     </div>
-
-    <div class="container">
-        <div id="top_push"></div>
-        <div class="row">
-            <div class="col-md-12">
-            </div>
-        </div>
-    </div>
+    <div id="top-push"></div>
 
     {% for message in get_flashed_messages() %}
       <div class=flash>{{ message }}</div>
@@ -73,10 +65,10 @@
     {% block body %}{% endblock %}
 
     <!-- FOOTER -->
-    <!--footer class="footer">
+    <footer class="footer">
         <div class="container">
-            <p class="footer-text">This interactive database website is a collaborative project from Oliver Muellerklein, Jacob Bukoski, and Zhongqi Miao</p>
+            <p class="footer-text">This interactive database website is a collaborative project from Zhongqi Miao and Oliver Muellerklein</p>
         </div>
-    </footer-->
+    </footer>
 </body>
 </html>

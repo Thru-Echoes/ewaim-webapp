@@ -1,6 +1,5 @@
 <img src="https://travis-ci.org/Thru-Echoes/ewaim-webapp.svg?branch=master">
 
-
 # EWAIM: an Extensible Web App for Interactive Mapping
 
 The **leaf-tut** branch follows the *Leaflet x Flask (Python) x Javascript* tutorial of building a web app to interface with the LA riot deaths.
@@ -8,6 +7,39 @@ The **leaf-tut** branch follows the *Leaflet x Flask (Python) x Javascript* tuto
 This tutorial can be [found here.](https://first-news-app.readthedocs.io/en/latest/)
 
 And an [example app here.](http://ireapps.github.io/first-news-app/build/index.html)
+
+## 0 To Do
+
+#### 0.0 References
+
+- [ ] Check out Google Earth Engine
+- [ ] Check out CartoDB
+
+#### 0.1 Oliver
+
+- [X] Make nav_layout.html for web app skeleton
+- [ ] Create Flask layout for maps
+- [ ] Create Flask layout for data analysis results etc
+- [ ] Pick data based on user event (local CSV Carbon vs CSV Twitter)  
+- [ ] Make front page to select data (have world map background)
+- [ ] From selected data, render Carbon map
+- [ ] Make clickable / selectable heatmap layer - users can select different variables / layers for mapping
+- [ ] ... heatmap will be directly on map (all frontend), make it able to accept backend data   
+
+**Next stages...**
+
+- [ ] Make data table CSV downloadable
+- [ ] Allow users to upload their own data  
+
+#### 0.2 Miao
+
+- [ ] Assume frontend passes back 'use postgres' - make db connections
+- [ ] Use Geo-Alch
+- [ ] Create GIS utility functions
+- [ ] Create shapefile utility functions
+- [ ] Create raster utility functions
+
+<hr>
 
 ## 1 EWAIMAPP
 

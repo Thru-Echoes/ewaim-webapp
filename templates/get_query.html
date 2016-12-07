@@ -1,0 +1,30 @@
+{% extends "nav_layout.html" %}
+
+{% block body %}
+<!--div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Query the Database</h2>
+            <br>
+            {% if dataExist %}
+            <h4>A database exists</h4>
+            <br>
+            <p>The column names for the database are "tag", "authors", "editors", "journal", "book", "volume", "pages", "title", "year", and "collection".</p>
+            <div id = "getFieldsRow" class = "row">
+                <div id = "getFieldsCol" class = "col-md-12">
+                    <form role = "form" method = 'POST' action = ''>
+                        <div class="form-group">
+                            <input type = "text" name = "queryString" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required>
+                        </div>
+                        <button type = "submit" class="btn btn-default">Query Database</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <h5>No database exists. Please upload a file and then attempt a query.</h5>
+            {% endif %}
+        </div>
+    </div>
+</div-->
+
+{% endblock body %}

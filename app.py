@@ -83,31 +83,21 @@ def index():
     #county_plus = county_topo()
     return render_template("index.html", obj_list = obj_list, obj_show = obj_show)
 
-# Can use detail page for species page PEARL
-#@app.route("/<row_id>/")
-#def detail(row_id):
-#    obj_list = get_csv()
-#    for row in obj_list:
-#        if row['id'] == row_id:
-#            return render_template("detail.html", obj_row = row)
-#
-#    abort(404)
-
 @app.route("/<pedon_key>/")
-def detail(pedon_key):
+def point_page(pedon_key):
     obj_list = get_csv()
     for row in obj_list:
         if row['pedon_key'] == pedon_key:
-            return render_template("detail.html", obj_row = row)
+            return render_template("point_page.html", obj_row = row)
 
     abort(404)
 
-@app.route("/showcalc", methods = ["GET", "POST"])
-def showcalc():
-    return render_template("showcalc.html")
+@app.route("/show_calc", methods = ["GET", "POST"])
+def show_calc():
+    return render_template("show_calc.html")
 
-@app.route("/calc", methods = ["GET", "POST"])
-def calc():
+@app.route("/get_calc", methods = ["GET", "POST"])
+def get_calc():
 
     if request.method == "POST":
         if ((request.form['query_string'] is None) or (len(request.form['query_string']) == 0)):
@@ -119,19 +109,19 @@ def calc():
             try:
                 simple_math = request.form['query_string']
                 calc_result = calculate(simple_math)
-                return render_template("showcalc.html", simple_math = simple_math, calc_result = calc_result)
+                return render_template("show_calc.html", simple_math = simple_math, calc_result = calc_result)
             except:
                 flash("Something went wrong...")
                 return redirect(request.url)
 
-    return render_template("calc.html")
+    return render_template("get_calc.html")
 
 
 ######## Below route as reference (may use)
 
 # Creeate route for fileupload html
-@app.route("/fileupload", methods = ["GET", "POST"])
-def fileupload():
+@app.route("/file_upload", methods = ["GET", "POST"])
+def file_upload():
     if request.method == "POST":
         if len(request.files) > 0:
 
@@ -168,19 +158,19 @@ def fileupload():
                 # Create table and pass in collection name
                 create_table(collectName, bibDB)
 
-                return render_template("showresults.html", collectName = collectName, filenamee = filename, fileUpload = bibDB[0], fileSize = len(bibDB))
+                return render_template("show_results.html", collectName = collectName, filenamee = filename, fileUpload = bibDB[0], fileSize = len(bibDB))
 
         else:
             # No file uploaded
             flash("Please select a file and try again.")
             return redirect(request.url)
 
-    return render_template("fileupload.html")
+    return render_template("file_upload.html")
 
-# Creeate route for showresults html
-@app.route("/showresults", methods = ["GET", "POST"])
+# Creeate route for show_results html
+@app.route("/show_results", methods = ["GET", "POST"])
 def showresults():
-    return render_template("showresults.html")
+    return render_template("show_results.html")
 
 if __name__ == "__main__":
     app.run(port = 5555, debug = True, use_reloader = True)
