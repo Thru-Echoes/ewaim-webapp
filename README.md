@@ -37,7 +37,14 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 - [ ] Use Geo-Alch
 - [ ] Create GIS utility functions
 - [ ] Create shapefile utility functions
+    - [ ] Functions importing shapefiles into python
+    - [ ] Functions importing imported shapefiles into database
+    - [ ] Importing Pearl fliles
 - [ ] Create raster utility functions
+    - [ ] Importing rasters into databases
+    - [ ] Creating rasters from databases
+    - [ ] Make tiling maps from the rasters
+- [ ] Data analysis utilities
 
 <hr>
 
