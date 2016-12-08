@@ -53,6 +53,40 @@
         var point_info = L.control({position: 'bottomright'});
         var cntr_info = L.control({position: 'bottomleft'});
 
+        var main_menu = L.Control.extend({
+            options: {position: 'topleft'},
+            initialize: function(latlng) {
+                // save position of the layer or any options from the constructor
+                //this._latlng = latlng;
+            },
+            onAdd: function(map) {
+                this._div = L.DomUtil.create('div', 'main-menu');
+
+                var fill_text = '<div class="container"><div class="row"><div id="menu-col1" class="col-md-3"><h2>&equiv; Menu</h2></div>' +
+                '<div id="menu-col2" class="col-md-3"><div id="menu-btn1" class="btn-group btn-group-lg" role="group"' + 'aria-label="..."><button type="button" class="btn btn-info btn-info-mod">States Layer</button></div>' +
+                '</div><div id="menu-col3" class="col-md-3"><div id="menu-btn2" class="btn-group btn-group-lg"' + 'role="group" aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Toggle Points</button></div>' +
+                '</div><div id="menu-col4" class="col-md-3"><div id="menu-btn3" class="btn-group btn-group-lg"' +
+                'role="group" aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Middle</button></div>' +
+                '</div></div>';
+                this._div.innerHTML = fill_text;
+                map.getPanes().overlayPane.appendChild(this._div);
+                L.DomEvent.on(this._div, "click", this._click);
+                // add a viewreset event listener for updating layer's position, do the latter
+                map.on('viewreset', this._reset, this);
+                this._reset();
+                return this._div;
+            },
+            _click: function(e) {
+                L.DomEvent.stop(e);
+                //alert(50);
+            },
+            _reset: function() {
+                // update layer's position
+                //var pos = this._map.latLngToLayerPoint(this._latlng);
+                //L.DomUtil.setPosition(this._div, pos);
+            }
+        });
+
         state_info.onAdd = function(map) {
             this._div = L.DomUtil.create('div', 'state_info'); // create a div with a class "state_info"
             this.state_update();
@@ -175,8 +209,11 @@
         });
         map.addLayer(osmLayer);
         state_info.addTo(map);
+        /* intro_info.addTo(map); */
+        map.addControl(new main_menu());
         cntr_info.addTo(map);
-        intro_info.addTo(map);
+        /* Change placement of zoom */
+        //map.zoomControl.setPosition('verticalcenterleft');
 
         geojson = L.geoJson(statesData, {
             style: style,
@@ -223,10 +260,10 @@
                         });
                     }
                 });
-                map.addLayer(point_data_layer);
+                //map.addLayer(point_data_layer);
             } else {
                 var point_data_layer = L.geoJson(point_data);
-                map.addLayer(point_data_layer);
+                //map.addLayer(point_data_layer);
             }
             point_info.addTo(map);
 
@@ -240,7 +277,41 @@
             var heat = L.heatLayer(addressPoints).addTo(map);*/
         }
 
+        /* Adjust map layout for menu + zoom controls */
+
         var this_height = $('#map-id').height();
+        var main_menu = $(".main-menu");
+        main_menu.attr("id", "main-menu-id");
+        var menu_zoom = main_menu.parent();
+        menu_zoom.attr("id", "menu-zoom-id");
+        var zoom_div = menu_zoom.children()[0];
+        var menu_div = menu_zoom.children()[1];
+        $(zoom_div).insertAfter(menu_div);
+
+        /* Fire functions on button click */
+        $("#menu-btn1").click(function(e) {
+
+            /*debugger;
+            geojson = L.geoJson(statesData, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);*/
+
+        });
+
+        $("#menu-btn2").click(function(e) {
+
+            //debugger;
+            var is_layer = map.hasLayer(point_data_layer);
+
+            if (is_layer) {
+                map.removeLayer(point_data_layer);
+            } else {
+                map.addLayer(point_data_layer);
+            }
+
+        });
+
     </script>
 </div>
 <div class="container">

@@ -128,6 +128,35 @@ h2 {
 }
 
 /*********************************************
+* Leaflet map - menu + buttons
+*********************************************/
+
+#menu-btn1 {
+    top: 12px;
+}
+#menu-btn2 {
+    top: 12px;
+}
+#menu-btn3 {
+    top: 12px;
+}
+
+.btn-info-mod {
+    /* color: #fff; */
+    /* background-color: #5bc0de; */
+    color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: #46b8da;
+}
+
+.btn-group-lg > .btn {
+    padding: 18px 50px;
+    font-size: 20px;
+    line-height: 0.333333;
+    border-radius: 18px;
+}
+
+/*********************************************
 * Leaflet map - custom positions
 *********************************************/
 
