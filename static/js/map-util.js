@@ -27,7 +27,7 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+    states_layer.resetStyle(e.target);
     state_info.state_update();
 }
 

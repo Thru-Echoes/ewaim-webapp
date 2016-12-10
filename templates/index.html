@@ -29,8 +29,8 @@
 <div id="push-before-map" style="height: 10px;"></div>
 <div class="container-fluid" id="map-container">
     <div id="map-id" style="width:100%;"></div>
-    <script src="./static/js/HeatLayer.js"></script>
-    <script src="./static/js/leaflet-heat.js"></script>
+    <!--script src="./static/js/HeatLayer.js"></script>
+    <script src="./static/js/leaflet-heat.js"></script-->
     <script src="./static/js/map-util.js"></script>
     <script type="text/javascript">
         $(window).load(function() {
@@ -48,7 +48,7 @@
                 //window.location = $(this).data("url");
             });
         });
-        var geojson;
+        //var geojson;
         var state_info = L.control({position: 'topright'});
         var point_info = L.control({position: 'bottomright'});
         var cntr_info = L.control({position: 'bottomleft'});
@@ -63,10 +63,10 @@
                 this._div = L.DomUtil.create('div', 'main-menu');
 
                 var fill_text = '<div class="container"><div class="row"><div id="menu-col1" class="col-md-3"><h2>&equiv; Menu</h2></div>' +
-                '<div id="menu-col2" class="col-md-3"><div id="menu-btn1" class="btn-group btn-group-lg" role="group"' + 'aria-label="..."><button type="button" class="btn btn-info btn-info-mod">States Layer</button></div>' +
+                '<div id="menu-col2" class="col-md-3"><div id="menu-btn1" class="btn-group btn-group-lg" role="group"' + 'aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Toggle States</button></div>' +
                 '</div><div id="menu-col3" class="col-md-3"><div id="menu-btn2" class="btn-group btn-group-lg"' + 'role="group" aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Toggle Points</button></div>' +
                 '</div><div id="menu-col4" class="col-md-3"><div id="menu-btn3" class="btn-group btn-group-lg"' +
-                'role="group" aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Middle</button></div>' +
+                'role="group" aria-label="..."><button type="button" class="btn btn-info btn-info-mod">Toggle Heatmaps</button></div>' +
                 '</div></div>';
                 this._div.innerHTML = fill_text;
                 map.getPanes().overlayPane.appendChild(this._div);
@@ -215,15 +215,15 @@
         /* Change placement of zoom */
         //map.zoomControl.setPosition('verticalcenterleft');
 
-        geojson = L.geoJson(statesData, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map);
-
         /* Add US state polygons */
         if (is_states) {
             /* statesData from ./static/db/us_states.js */
             /* L.geoJson(statesData).addTo(map);*/
+
+            var states_layer = L.geoJson(statesData, {
+                style: style,
+                onEachFeature: onEachFeature
+            });
         }
         /* Add point data */
         if (is_point) {
@@ -266,16 +266,16 @@
                 //map.addLayer(point_data_layer);
             }
             point_info.addTo(map);
-
-            /* addressPoints = addressPoints.map(function(p) {
-                console.log("p: ", p);
-                console.log("p[0]: ", p[0]);
-                print("p: ", p);
-                print("p[0]: ", p[0]);
-                return [p[0], p[1]];
-            });
-            var heat = L.heatLayer(addressPoints).addTo(map);*/
         }
+
+        var num_points = point_data.features.length;
+        var point_data_heat = point_data.features.map(function(p) {
+            var ptnn = p.geometry.coordinates;
+            var crbn = p.properties.tot_carbon;
+            debugger;
+            return L.latLng(ptnn[1], ptnn[0], eval(crbn) * 0.05);
+        });
+        var heat = L.heatLayer(point_data_heat, {radius: 60});
 
         /* Adjust map layout for menu + zoom controls */
 
@@ -290,17 +290,17 @@
 
         /* Fire functions on button click */
         $("#menu-btn1").click(function(e) {
+            //debugger;
+            var is_layer = map.hasLayer(states_layer);
 
-            /*debugger;
-            geojson = L.geoJson(statesData, {
-                style: style,
-                onEachFeature: onEachFeature
-            }).addTo(map);*/
-
+            if (is_layer) {
+                map.removeLayer(states_layer);
+            } else {
+                map.addLayer(states_layer);
+            }
         });
 
         $("#menu-btn2").click(function(e) {
-
             //debugger;
             var is_layer = map.hasLayer(point_data_layer);
 
@@ -309,7 +309,17 @@
             } else {
                 map.addLayer(point_data_layer);
             }
+        });
 
+        $("#menu-btn3").click(function(e) {
+            debugger;
+            var is_layer = map.hasLayer(heat);
+
+            if (is_layer) {
+                map.removeLayer(heat);
+            } else {
+                map.addLayer(heat);
+            }
         });
 
     </script>
