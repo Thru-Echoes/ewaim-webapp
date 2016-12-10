@@ -1,15 +1,8 @@
 {% extends "nav_layout.html" %}
 
 {% block body %}
-<div id="push-top-index" style="height: 100px"></div>
+<!-- div id="push-top-index" style="height: 100px"></div -->
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 style="text-align: center;">Welcome to EWAIM</h1>
-            <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
-            <h5 style="text-align: center;">Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
-        </div>
-    </div>
     <!--div class="row">
         <div class="col-md-12">
             <h3>Select the database to use:</h3>
@@ -272,10 +265,10 @@
         var point_data_heat = point_data.features.map(function(p) {
             var ptnn = p.geometry.coordinates;
             var crbn = p.properties.tot_carbon;
-            debugger;
+            //debugger;
             return L.latLng(ptnn[1], ptnn[0], eval(crbn) * 0.05);
         });
-        var heat = L.heatLayer(point_data_heat, {radius: 60});
+        var heat = L.heatLayer(point_data_heat, {radius: 40});
 
         /* Adjust map layout for menu + zoom controls */
 
@@ -312,7 +305,7 @@
         });
 
         $("#menu-btn3").click(function(e) {
-            debugger;
+            // debugger;
             var is_layer = map.hasLayer(heat);
 
             if (is_layer) {
@@ -323,6 +316,15 @@
         });
 
     </script>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="text-align: center;">Welcome to EWAIM</h1>
+            <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
+            <h5 style="text-align: center;">Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="row">
