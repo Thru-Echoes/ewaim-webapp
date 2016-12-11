@@ -34,17 +34,17 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 #### 0.2 Miao
 
 - [ ] Assume frontend passes back 'use postgres' - make db connections
-- [ ] Use Geo-Alch
-- [ ] DATASHADER!!!!!
+- [X] Use Geo-Alch
+- [ ] DATASHADER (Not going to be done now)
 - [ ] Create GIS utility functions
 - [ ] Create shapefile utility functions
-    - [ ] Functions importing shapefiles into python
+    - [X] Functions importing shapefiles into python
     - [ ] Functions importing imported shapefiles into database
-    - [ ] Importing Pearl fliles
+    - [X] Importing Pearl fliles
 - [ ] Create raster utility functions
     - [ ] Importing rasters into databases
     - [ ] Creating rasters from databases
-    - [ ] Make tiling maps from the rasters
+    - [X] Make tiling maps from the rasters
 - [ ] Data analysis utilities
 
 <hr>
