@@ -11,6 +11,7 @@ test <- function(r_dir) {
 abba_root_path = "~/Documents/research-projects/main/ewaim-webapp/static/data/pearl-tif/pearl_data/abbreviata_bancrofti/"
 abba_file_path = paste(abba_root_path, "grd/ABBREVIATA BANCROFTI current.grd", sep = "")
 abba_tif_path = paste(abba_root_path, "tif/ABBREVIATA BANCROFTI current.tif", sep = "")
+abba_tif_dir = paste(abba_root_path, "tif/", sep = "")
 
 abba_raster = raster(abba_file_path)
 abba_raster[abba_raster != 1] = NA
@@ -46,8 +47,8 @@ writePaletteVRT <- function(out, raster, colourvector) {
 
 
 #####
-
-writePaletteVRT("ABBREVIATA BANCROFTI current.vrt", abba_raster, rainbow(1))
+#setwd(abba_tif_dir)
+writePaletteVRT(paste(abba_tif_dir, "ABBREVIATA BANCROFTI current.vrt", sep=""), abba_raster, rainbow(5))
 
 py_path = "~/Documents/research-projects/main/ewaim-webapp/static/py/add_tif_palette.py"
 palette_run = paste(py_path, " ABBREVIATA BANCROFTI current.vrt", "ABBREVIATA BANCROFTI current.tif", sep = "")

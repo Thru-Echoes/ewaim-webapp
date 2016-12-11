@@ -140,20 +140,31 @@ h2 {
 #menu-btn3 {
     top: 12px;
 }
+#menu-btn4 {
+    top: 12px;
+}
 
 .btn-info-mod {
     /* color: #fff; */
     /* background-color: #5bc0de; */
-    color: rgba(0, 0, 0, 0.9);
-    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-color: #46b8da;
+}
+
+.btn-info {
+    /* color: #fff; */
+    /* background-color: #5bc0de; */
+    color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.2);
     border-color: #46b8da;
 }
 
 .btn-group-lg > .btn {
-    padding: 18px 50px;
-    font-size: 20px;
+    padding: 18px 40px;
+    font-size: 16px;
     line-height: 0.333333;
-    border-radius: 18px;
+    border-radius: 10px;
 }
 
 /*********************************************
