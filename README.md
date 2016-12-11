@@ -18,18 +18,18 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 #### 0.1 Oliver
 
 - [X] Make nav_layout.html for web app skeleton
-- [ ] Create Flask layout for maps
+- [X] Create Flask layout for maps
 - [ ] Create Flask layout for data analysis results etc
-- [ ] Pick data based on user event (local CSV Carbon vs CSV Twitter)  
+- [ ] Pick data based on user event (local CSV Carbon vs CSV Twitter)
 - [ ] Make front page to select data (have world map background)
 - [ ] From selected data, render Carbon map
-- [ ] Make clickable / selectable heatmap layer - users can select different variables / layers for mapping
-- [ ] ... heatmap will be directly on map (all frontend), make it able to accept backend data   
+- [X] Make clickable / selectable heatmap layer - users can select different variables / layers for mapping
+- [X] ... heatmap will be directly on map (all frontend), make it able to accept backend data
 
 **Next stages...**
 
 - [ ] Make data table CSV downloadable
-- [ ] Allow users to upload their own data  
+- [ ] Allow users to upload their own data
 
 #### 0.2 Miao
 

@@ -85,6 +85,10 @@ def index():
     #county_plus = county_topo()
     return render_template("index.html", obj_list = obj_list, obj_show = obj_show)
 
+@app.route("/ex_raster", methods = ["GET", "POST"])
+def ex_raster():
+    return render_template("ex_tif_raster.html")
+
 @app.route("/<pedon_key>/")
 def point_page(pedon_key):
     obj_list = get_csv()
