@@ -35,6 +35,7 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 
 - [ ] Assume frontend passes back 'use postgres' - make db connections
 - [ ] Use Geo-Alch
+- [ ] DATASHADER!!!!!
 - [ ] Create GIS utility functions
 - [ ] Create shapefile utility functions
     - [ ] Functions importing shapefiles into python
