@@ -19,3 +19,4 @@ __pycache__
 /docs
 .cache
 /sample_data/pearl_data/
+/static/py/__pycache__/
