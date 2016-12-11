@@ -64,9 +64,17 @@
         * Set params for core map
         ***************************************/
 
+        var tile_current_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/current/{z}/{x}/{y}.png";
+        var tile_ac45_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac45/{z}/{x}/{y}.png";
+        var tile_ac85_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac85/{z}/{x}/{y}.png";
+        var tile_bc26_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/bc26/{z}/{x}/{y}.png";
+
         // Overlay layers (TMS)
-        var tile_layer = L.tileLayer('./static/data/pearl-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1, attribution: ""});
-        // var overlaymaps = {"Layer": tile_layer}
+        var tile_current = L.tileLayer(tile_current_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_ac45 = L.tileLayer(tile_ac45_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_ac85 = L.tileLayer(tile_ac85_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_bc26 = L.tileLayer(tile_bc26_path, {tms: true, opacity: 0.8, attribution: ""});
+        // var overlaymaps = {"Layer": tile_current}
 
         var init_lat = 36.23418283;
         var init_long = -116.8341902;
@@ -85,7 +93,7 @@
             center: [init_lat, init_long],
             zoom: init_zoom,
             minZoom: 3,
-            maxZoom: 5,
+            maxZoom: 6,
             layers: [osm_base]
         });
 
@@ -264,7 +272,10 @@
             "Toggle States": states_layer,
             "Toggle Points": point_data_layer,
             "Toggle Heatmap": heat,
-            "Toggle PEARL": tile_layer
+            "Pearl: Current": tile_current,
+            "Pearl: AC 4.5": tile_ac45,
+            "Pearl: AC 8.5": tile_ac85,
+            "Pearl: BC 2.6": tile_bc26
         };
         L.control.layers(basemaps, overlaymaps, {collpased: false}).addTo(map);
 

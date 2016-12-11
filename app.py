@@ -72,13 +72,14 @@ def index():
     show_points = "true"
     show_states = "true"
     show_popup = "true"
+    pearl_sp = "abbreviata_bancrofti"
     obj_show = {
+        "pearl_sp" : pearl_sp,
         "data_name" : data_name,
         "init_zoom" : init_zoom,
         "show_points" : show_points,
         "show_states" : show_states,
         "show_popup" : show_popup,
-
     }
     #obj_sql = query_sql()
     #county_plus = county_topo()

@@ -26,6 +26,11 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 - [X] Make clickable / selectable heatmap layer - users can select different variables / layers for mapping
 - [X] ... heatmap will be directly on map (all frontend), make it able to accept backend data
 
+```
+    # Turn tif into tiles for plotting (after test() turn grd into tif)
+    $ gdal2tiles.py -z 1-6 -w none tif/ABBREVIATA\ BANCROFTI\ current.tif ../../../pearl-tiles/abba_curr
+```
+
 **Next stages...**
 
 - [ ] Make data table CSV downloadable
