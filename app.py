@@ -4,7 +4,6 @@ from flask import abort
 from werkzeug import secure_filename
 from flask_bootstrap import Bootstrap
 import os
-from static.py.bibUtil import *
 from ewaim import calculate
 import csv
 import errno

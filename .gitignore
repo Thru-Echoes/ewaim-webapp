@@ -18,4 +18,5 @@ __pycache__
 /dist
 /docs
 .cache
-/sample_data/pearl_data/
+/static/data/pearl-tif/pearl_data/
+/.DS_Store

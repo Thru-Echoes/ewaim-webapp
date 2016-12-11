@@ -8,7 +8,7 @@ test <- function(r_dir) {
   setwd(r_dir)
 }
 
-abba_root_path = "~/Documents/research-projects/main/ewaim-webapp/sample_data/pearl_data/abbreviata_bancrofti/"
+abba_root_path = "~/Documents/research-projects/main/ewaim-webapp/static/data/pearl-tif/pearl_data/abbreviata_bancrofti/"
 abba_file_path = paste(abba_root_path, "grd/ABBREVIATA BANCROFTI current.grd", sep = "")
 abba_tif_path = paste(abba_root_path, "tif/ABBREVIATA BANCROFTI current.tif", sep = "")
 
@@ -55,4 +55,4 @@ palette_run = paste(py_path, " ABBREVIATA BANCROFTI current.vrt", "ABBREVIATA BA
 system(palette_run)
 
 
-# python add_tif_palette.py ../../sample_data/pearl_data/abbreviata_bancrofti/tif/ABBREVIATA\ BANCROFTI\ current.vrt ../../sample_data/pearl_data/abbreviata_bancrofti/tif/ABBREVIATA\ BANCROFTI\ current.tif 
+# python add_tif_palette.py ../../static/data/pearl-tif/pearl_data/abbreviata_bancrofti/tif/ABBREVIATA\ BANCROFTI\ current.vrt ../../static/data/pearl-tif/pearl_data/abbreviata_bancrofti/tif/ABBREVIATA\ BANCROFTI\ current.tif 
