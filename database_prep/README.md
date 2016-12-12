@@ -7,6 +7,7 @@ To do this on a mac:
 ```bash
   brew install postgresql, postgis
 ```
+And you need python packages `psycopg2` and `gdal`.
 
 After you have installed these two, please create a GIS database template:
 
