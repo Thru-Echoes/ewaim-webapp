@@ -1,0 +1,285 @@
+{% extends "nav_layout.html" %}
+{% block body %}
+<style type="text/css">
+    .ctl {
+        padding: 2px 10px 2px 10px;
+        background: white;
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        text-align: right;
+    }
+    .title {
+        font-size: 26pt;
+        font-weight: bold;
+        font: italic;
+    }
+</style>
+<!-- div id="push-top-index" style="height: 100px"></div -->
+<div class="container">
+    <!--div class="row">
+        <div class="col-md-12">
+            <h3>Select the database to use:</h3>
+            <br>
+            <div class="radio">
+                <label><input id="use-carbon" type="radio" name="optradio">Use carbon sample data</label>
+            </div>
+            <div class="radio">
+                <label><input id="use-twitter" type="radio" name="optradio">Use Twitter sample data</label>
+            </div>
+            <div class="radio disabled">
+                <label><input id="use-upload" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
+            </div>
+        </div>
+    </div-->
+</div>
+<div id="push-before-map" style="height: 10px;"></div>
+<div class="container-fluid" id="map-container">
+    <div id="map-id" style="width:100%;"></div>
+    <!--script src="./static/js/HeatLayer.js"></script>
+    <script src="./static/js/leaflet-heat.js"></script-->
+    <script src="./static/js/map-util.js"></script>
+    <script type="text/javascript">
+        $(window).load(function() {
+            var csv_data = {{ obj_meta|tojson }};
+            $(function() {
+                $("#csv_table").bootstrapTable({
+                    data: csv_data
+                });
+            });
+
+            var model_data = {{ obj_sp|tojson }};
+
+            debugger;
+
+            $(function() {
+                $("#model_table").bootstrapTable({
+                    data: model_data
+                });
+            });
+        });
+
+        $(document).ready(function($) {
+            $(".click-row").click(function() {
+                window.document.location = $(this).data("href");
+                //window.location = $(this).data("url");
+            });
+        });
+
+        /***************************************
+        * Various basemaps
+        ***************************************/
+
+        //  .. OpenStreetMap
+        var osm_base = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
+
+        //  .. CartoDB Positron
+        var cartodb_base = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'});
+
+        //  .. OSM Toner
+        var toner_base = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'});
+
+        //  .. White background
+        var white_base = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==");
+
+        var basemaps = {"OpenStreetMap": osm_base, "CartoDB Basemap": cartodb_base, "Stamen Toner": toner_base, "Remove background (white)": white_base};
+
+        /***************************************
+        * Set params for core map
+        ***************************************/
+
+        var tile_current_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/current/{z}/{x}/{y}.png";
+        var tile_ac45_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac45/{z}/{x}/{y}.png";
+        var tile_ac85_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac85/{z}/{x}/{y}.png";
+        var tile_bc26_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/bc26/{z}/{x}/{y}.png";
+
+        // Overlay layers (TMS)
+        var tile_current = L.tileLayer(tile_current_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_ac45 = L.tileLayer(tile_ac45_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_ac85 = L.tileLayer(tile_ac85_path, {tms: true, opacity: 0.8, attribution: ""});
+        var tile_bc26 = L.tileLayer(tile_bc26_path, {tms: true, opacity: 0.8, attribution: ""});
+        // var overlaymaps = {"Layer": tile_current}
+
+        var init_lat = {{ obj_show['init_lat'] }};
+        var init_long = {{ obj_show['init_long'] }};
+        var init_zoom = {{ obj_show['init_zoom'] }};
+
+        /***************************************
+        * Set core map
+        ***************************************/
+
+        //var map = L.map('map-id').setView([34.055, -118.35], 9);
+        //var map = L.map('map-id').setView([init_lat, init_long], init_zoom);
+        var map = L.map('map-id', {
+            center: [init_lat, init_long],
+            zoom: init_zoom,
+            minZoom: 3,
+            maxZoom: 6,
+            layers: [cartodb_base]
+        });
+
+        /***************************************
+        * Set controls over map
+        ***************************************/
+
+        var pearl_info = L.control({position: 'bottomleft'});
+        pearl_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'pearl_info');
+            this.pearl_update();
+            return this._div;
+        };
+        pearl_info.pearl_update = function(props) {
+
+            debugger;
+
+            /*this._div.innerHTML = '<h3>Species Distribution Models</h3><hr>' + (props ?
+                '<h4><b>' + props.science_name + '</b></h4><br/>' +*/
+                /*'<div class="container-fluid"><div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div></div>'*/
+                /*'<div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div>'
+                : 'Hover over a model');*/
+
+
+            this._div.innerHTML = '<h3>Species Distribution Models</h3><hr>' + (props ?
+                '<div class="container">' +
+                    '<div class="row"><div class="col-md-12">' +
+                    '<div class="container" style="padding: 10px; "><br>' +
+                    '<table id="model_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">' +
+                    '<thead><tr class="click-row" data-href="/">' +
+                    '<th data-field="Model" data-sortable="true">Model</th>' +
+                    '<th data-field="native_habitat_change" data-sortable="true">Net Change in Native Habitat</th>' +
+                    '<th data-field="global_habitat_change" data-sortable="true">Net Change in Global Habitat</th></tr>' +
+                    '</thead></table></div></div></div></div>'
+                    : 'Toggle a distribution model.');
+
+            debugger;
+        };
+        pearl_info.addTo(map);
+
+        L.control.scale({position: 'topleft'}).addTo(map);
+
+        // Title
+        var title = L.control();
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+        };
+        title.update = function(props) {
+            this._div.innerHTML = "{{ obj_show['prop_name'] }}";
+        };
+        title.addTo(map);
+
+        /***************************************
+        * Simple heatmap
+        ***************************************/
+
+        /*var num_points = point_data.features.length;
+        var point_data_heat = point_data.features.map(function(p) {
+            var ptnn = p.geometry.coordinates;
+            var crbn = p.properties.tot_carbon;
+            //debugger;
+            return L.latLng(ptnn[1], ptnn[0], eval(crbn) * 0.05);
+        });
+        var heat = L.heatLayer(point_data_heat, {radius: 25});*/
+
+        var overlaymaps = {
+            "Pearl: Current": tile_current,
+            "Pearl: AC 4.5": tile_ac45,
+            "Pearl: AC 8.5": tile_ac85,
+            "Pearl: BC 2.6": tile_bc26
+        };
+        L.control.layers(basemaps, overlaymaps, {collpased: false}).addTo(map);
+
+        /***************************************
+        * Misc.
+        ***************************************/
+
+        /* Adjust map layout for menu + zoom controls */
+
+        var this_height = $('#map-id').height();
+        var main_menu = $(".main-menu");
+        main_menu.attr("id", "main-menu-id");
+        var menu_zoom = main_menu.parent();
+        menu_zoom.attr("id", "menu-zoom-id");
+        var zoom_div = menu_zoom.children()[0];
+        var menu_div = menu_zoom.children()[1];
+        $(zoom_div).insertAfter(menu_div);
+
+        /***************************************
+        * Hover over pearl models
+        ***************************************/
+
+        function onMapClick(e) {
+            alert("You clicked the map at " + e.latlng);
+        }
+
+        function onCurrClick(e) {
+            debugger;
+
+            alert("You clicked current PEARL map");
+        }
+
+        map.on('click', onMapClick);
+
+        $(document).ready(function() {
+
+            debugger;
+
+            /* Pearl Current */
+            var curr_box = $(".leaflet-control-layers-overlays > label > div > input")[0];
+
+            curr_box.on('click', onCurrClick);
+
+            /*.change(function(event) {
+
+                debugger;
+
+                layerClicked = window[event.target.value];
+
+                if (map.hasLayer(layerClicked)) {
+                    map.removeLayer(layerClicked);
+                } else {
+                    map.addLayer(layerClicked);
+                };
+            });*/
+
+            /* Pearl AC 4.5 */
+            var ac45_box = $(".leaflet-control-layers-overlays > label > div > input")[1];
+            /* Pearl AC 8.5 */
+            var ac85_box = $(".leaflet-control-layers-overlays > label > div > input")[2];
+            /* Pearl BC 2.6 */
+            var bc26_box = $(".leaflet-control-layers-overlays > label > div > input")[3];
+        })
+
+    </script>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="text-align: center;"><i>{{ obj_show['prop_name'] }}</i></h1>
+            <br>
+            <div class="container" style="padding: 10px; ">
+                <br>
+                <table id="csv_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
+                    <thead>
+                        <tr class="click-row" data-href="/">
+                            <th data-field="id" data-sortable="true">Species ID</th>
+                            <th data-field="science_name" data-sortable="true">Scientific Name</th>
+                            <th data-field="clade" data-sortable="true">Clade</th>
+                            <th data-field="iucn" data-sortable="true">IUCN</th>
+                            <th data-field="coverage" data-sortable="true">Data Collection Quality</th>
+                            <th data-field="uncertain" data-sortable="true">Model Quality</th>
+                            <th data-field="sources" data-sortable="true">Data Sources</th>
+                            <th data-field="tss" data-sortable="true">True Skill Statistic</th>
+                            <th data-field="roc" data-sortable="true">Area Under Curve</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="push-index-bottom" style="height: 100px;"></div>
+{% endblock %}

@@ -46,9 +46,9 @@ def makePathExist(path):
 
 makePathExist('static/db')
 
-def get_csv():
+def get_csv(csv_path = "./static/csv/carbon_sample_sm.csv"):
     #csv_path = "./static/csv/la-riots-deaths.csv"
-    csv_path = "./static/csv/carbon_sample_sm.csv"
+    #csv_path = "./static/csv/carbon_sample_sm.csv"
     csv_file = open(csv_path, 'r')
     csv_obj = csv.DictReader(csv_file)
     return list(csv_obj)
@@ -65,6 +65,12 @@ def mean_lat_long(obj_csv):
 
 @app.route("/")
 def index():
+
+    if request.method == "POST":
+        print("\n------")
+        print("POST request in index")
+        print("------\n")
+
     obj_list = get_csv()
     ## obj_latlong = mean_lat_long(obj_list)
     init_zoom = 6
@@ -85,9 +91,67 @@ def index():
     #county_plus = county_topo()
     return render_template("index.html", obj_list = obj_list, obj_show = obj_show)
 
+@app.route("/carbon_map")
+def carbon_map():
+    if request.method == "POST":
+        print("\n------")
+        print("POST request in carbon_map")
+        print("------\n")
+
+    obj_list = get_csv()
+    ## obj_latlong = mean_lat_long(obj_list)
+    init_lat = 36.23418283
+    init_long = -116.8341902
+    init_zoom = 6
+    data_name = "Carbon Samples"
+    show_points = "true"
+    show_states = "true"
+    show_popup = "true"
+    obj_show = {
+        "data_name" : data_name,
+        "init_zoom" : init_zoom,
+        "init_lat" : init_lat,
+        "init_long" : init_long,
+        "show_points" : show_points,
+        "show_states" : show_states,
+        "show_popup" : show_popup,
+    }
+    #obj_sql = query_sql()
+    #county_plus = county_topo()
+    return render_template("carbon_map.html", obj_list = obj_list, obj_show = obj_show)
+
 @app.route("/ex_raster", methods = ["GET", "POST"])
 def ex_raster():
     return render_template("ex_tif_raster.html")
+
+@app.route("/pearl_map", methods = ["GET", "POST"])
+def pearl_map():
+
+    if request.method == "POST":
+        print("\n------")
+        print("POST request in pearl_map")
+        print("------\n")
+
+    init_zoom = 3
+    init_lat = 11.252725743861603
+    init_long = -0.005242086131886481
+    data_name = "Global Parasite Distributions"
+    pearl_sp = "abbreviata_bancrofti"
+    prop_name = "Abbreviata bancrofti"
+    obj_show = {
+        "pearl_sp" : pearl_sp,
+        "prop_name" : prop_name,
+        "data_name" : data_name,
+        "init_zoom" : init_zoom,
+        "init_lat" : init_lat,
+        "init_long" : init_long
+    }
+
+    ## Pull in PEARL metadata
+    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+    obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
+
+    return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
 @app.route("/<pedon_key>/")
 def point_page(pedon_key):
@@ -175,7 +239,7 @@ def file_upload():
 
 # Creeate route for show_results html
 @app.route("/show_results", methods = ["GET", "POST"])
-def showresults():
+def show_results():
     return render_template("show_results.html")
 
 if __name__ == "__main__":

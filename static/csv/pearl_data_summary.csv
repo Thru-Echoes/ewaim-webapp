@@ -1,0 +1,5 @@
+id,science_name,clade,iucn,coverage,uncertain,sources,proper_name,tss,roc
+1,ABBREVIATA_BANCROFTI,Nematoda,VU,Fair,Perfect,GBIF,Abbreviata_bancrofti,0.709,0.897
+62,ASCOCOTYLE_LONGA,Trematoda,LC,Excellent,Perfect,GBIF,Ascocotyle_longa,0.942,0.993
+108,CTENOCEPHALIDES_CANIS,Siphonaptera,VU,Excellent,Perfect,Vectormap_GBIF,Ctenocephalides_canis,0.735,0.93
+458,ZYGOCOTYLE_LUNATA,Trematoda,LC,Good,Good,GBIF_USNPC,Zygocotyle_lunata,0.623,0.874
