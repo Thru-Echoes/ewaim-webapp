@@ -36,28 +36,7 @@ This interactive database website is a collaborative project from Zhongqi Miao a
 
 #### 2.2 Database Setup for PostGreSQL
 
-Commands for using the database I uploaded:
-
-```bash
-  createdb tweets -T template_postgis
-  gunzip -c tweets_db.gz | psql tweets
-```
-
-If you don't have `postgis` template, please do this first:
-
-```bash
-  createdb template_postgis
-  psql template_postgis
-  >>> create extension postgis;
-  >>> create extension postgis_topology;
-```
-
-To install `postgresql` and `postgis`:
-
-OSX:
-```bash
-  brew install postgresql postgis
-```
+See `database_prep` folder.
 
 ## 3. Future Development
 
