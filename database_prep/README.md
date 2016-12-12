@@ -1,6 +1,7 @@
 # Database Preparation
 
-To use the database used for the app, first you need to install `Postgresql` and `PostGIS`.
+To use the database, first you need to install `Postgresql` and `PostGIS`.
+
 To do this on a mac:
 
 ```bash
@@ -21,3 +22,6 @@ Then you can actually populate the database with the csv and shapefiles in this 
 ```bash
   python database_populate.py
 ```
+
+After the database is populated properly, the `db_util.py`, which has some simple GIS function from `PostGIS` can be done,
+and called by the server. 
