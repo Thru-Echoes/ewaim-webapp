@@ -26,3 +26,14 @@ Then you can actually populate the database with the csv and shapefiles in this 
 
 After the database is populated properly, the `db_util.py`, which has some simple GIS function from `PostGIS` can be done,
 and called by the server.
+
+# Note!!!!!!!
+Still, the installation of `gdal` can be painful. If you don't want to do that, I have dumped a database file here, `temperature.gz`.
+ 
+To use it, you will need to do this:
+ 
+```bash
+  createdb temperature -T template_postgis
+  gunzip -c temperature.gz | psql temperature
+```
+The python package `psycopg2` and the `PostGIS` template are still needed.
