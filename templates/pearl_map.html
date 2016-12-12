@@ -12,26 +12,11 @@
     .title {
         font-size: 26pt;
         font-weight: bold;
-        font: italic;
+        font-style: italic;
     }
 </style>
 <!-- div id="push-top-index" style="height: 100px"></div -->
 <div class="container">
-    <!--div class="row">
-        <div class="col-md-12">
-            <h3>Select the database to use:</h3>
-            <br>
-            <div class="radio">
-                <label><input id="use-carbon" type="radio" name="optradio">Use carbon sample data</label>
-            </div>
-            <div class="radio">
-                <label><input id="use-twitter" type="radio" name="optradio">Use Twitter sample data</label>
-            </div>
-            <div class="radio disabled">
-                <label><input id="use-upload" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
-            </div>
-        </div>
-    </div-->
 </div>
 <div id="push-before-map" style="height: 10px;"></div>
 <div class="container-fluid" id="map-container">
@@ -43,20 +28,41 @@
         $(window).load(function() {
             var csv_data = {{ obj_meta|tojson }};
             $(function() {
-                $("#csv_table").bootstrapTable({
+                $("#csv-table").bootstrapTable({
                     data: csv_data
                 });
             });
 
             var model_data = {{ obj_sp|tojson }};
+            var model_string = model_data[0]["Model"];
+            var native_string = model_data[0]["native_habitat_change"];
+            var global_string = model_data[0]["global_habitat_change"];
+            var model_li = $("#Model1");
+            var native_li = $("#native_habitat_change1");
+            var global_li = $("#global_habitat_change1");
+            model_li.html(model_string + " (Green)");
+            native_li.html(native_string);
+            global_li.html(global_string);
 
-            debugger;
+            model_string = model_data[1]["Model"];
+            native_string = model_data[1]["native_habitat_change"];
+            global_string = model_data[1]["global_habitat_change"];
+            model_li = $("#Model2");
+            native_li = $("#native_habitat_change2");
+            global_li = $("#global_habitat_change2");
+            model_li.html(model_string + " (Yellow)");
+            native_li.html(native_string);
+            global_li.html(global_string);
 
-            $(function() {
-                $("#model_table").bootstrapTable({
-                    data: model_data
-                });
-            });
+            model_string = model_data[2]["Model"];
+            native_string = model_data[2]["native_habitat_change"];
+            global_string = model_data[2]["global_habitat_change"];
+            model_li = $("#Model3");
+            native_li = $("#native_habitat_change3");
+            global_li = $("#global_habitat_change3");
+            model_li.html(model_string + " (Red)");
+            native_li.html(native_string);
+            global_li.html(global_string);
         });
 
         $(document).ready(function($) {
@@ -129,33 +135,49 @@
             return this._div;
         };
         pearl_info.pearl_update = function(props) {
-
-            debugger;
-
-            /*this._div.innerHTML = '<h3>Species Distribution Models</h3><hr>' + (props ?
-                '<h4><b>' + props.science_name + '</b></h4><br/>' +*/
-                /*'<div class="container-fluid"><div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
-                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div></div>'*/
-                /*'<div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
-                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div>'
-                : 'Hover over a model');*/
-
-
-            this._div.innerHTML = '<h3>Species Distribution Models</h3><hr>' + (props ?
-                '<div class="container">' +
-                    '<div class="row"><div class="col-md-12">' +
-                    '<div class="container" style="padding: 10px; "><br>' +
-                    '<table id="model_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">' +
-                    '<thead><tr class="click-row" data-href="/">' +
-                    '<th data-field="Model" data-sortable="true">Model</th>' +
-                    '<th data-field="native_habitat_change" data-sortable="true">Net Change in Native Habitat</th>' +
-                    '<th data-field="global_habitat_change" data-sortable="true">Net Change in Global Habitat</th></tr>' +
-                    '</thead></table></div></div></div></div>'
-                    : 'Toggle a distribution model.');
-
-            debugger;
+            this._div.innerHTML = '<h3>Species Distribution Models</h3><hr>' +
+                /*'<div id="model-list" class="container">' +*/
+                '<div class="row"><div class="col-md-4"><h5><b>Model</b></h5>' +
+                '<ul style="list-style-type:none; padding-left: 1px;"><li id="Model1" style="color: rgba(0, 128, 0, 0.6)">foo1</li><br>' +
+                '<li id="Model2" style="color: rgba(204, 204, 0, 0.8)">foo2</li><br>' +
+                '<li id="Model3" style="color: rgba(255, 0, 0, 0.6)">foo3</li><br></ul>' +
+                '</div><div class="col-md-4"><p><b>Native Habitat Change</b></p>' +
+                '<ul style="list-style-type:none;"><li id="native_habitat_change1">native1</li><br>' +
+                '<li id="native_habitat_change2">native2</li><br>' +
+                '<li id="native_habitat_change3">native3</li><br></ul>' +
+                '</div><div class="col-md-4"><p><b>Global Habitat Change</b></p>' +
+                '<ul style="list-style-type:none;"><li id="global_habitat_change1">global1</li><br>' +
+                '<li id="global_habitat_change2">global2</li><br>' +
+                '<li id="global_habitat_change3">global3</li><br></ul>' +
+                '</div></div>';
         };
         pearl_info.addTo(map);
+
+        function onMapClick(e) {
+            //alert("You clicked the map at " + e.latlng);
+            var curr_locc = e.latlng;
+            var lat_div = $("#curr_lat");
+            var long_div = $("#curr_long");
+            lat_div.html(curr_locc["lat"]);
+            long_div.html(curr_locc["lng"]);
+        }
+        map.on('click', onMapClick);
+
+        var loc_info = L.control({position: 'bottomright'});
+        loc_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'loc_info');
+            this.loc_update();
+            return this._div;
+        };
+        loc_info.loc_update = function(props) {
+            this._div.innerHTML = '<h3>Location</h3><hr>' +
+                '<div class="row"><div class="col-md-6"><h5><b>Lat.</b></h5>' +
+                '<ul style="list-style-type:none; padding-left: 1px;"><li id="curr_lat">' + init_lat + '</li><br></ul>' +
+                '</div><div class="col-md-6"><p><b>Long.</b></p>' +
+                '<ul style="list-style-type:none;"><li id="curr_long">' + init_long + '</li><br></ul>' +
+                '</div></div>';
+        };
+        loc_info.addTo(map);
 
         L.control.scale({position: 'topleft'}).addTo(map);
 
@@ -211,33 +233,14 @@
         * Hover over pearl models
         ***************************************/
 
-        function onMapClick(e) {
-            alert("You clicked the map at " + e.latlng);
-        }
-
-        function onCurrClick(e) {
-            debugger;
-
-            alert("You clicked current PEARL map");
-        }
-
-        map.on('click', onMapClick);
-
         $(document).ready(function() {
-
-            debugger;
-
             /* Pearl Current */
             var curr_box = $(".leaflet-control-layers-overlays > label > div > input")[0];
-
-            curr_box.on('click', onCurrClick);
+            //curr_box.on('click', onCurrClick);
 
             /*.change(function(event) {
-
                 debugger;
-
                 layerClicked = window[event.target.value];
-
                 if (map.hasLayer(layerClicked)) {
                     map.removeLayer(layerClicked);
                 } else {
@@ -251,18 +254,16 @@
             var ac85_box = $(".leaflet-control-layers-overlays > label > div > input")[2];
             /* Pearl BC 2.6 */
             var bc26_box = $(".leaflet-control-layers-overlays > label > div > input")[3];
-        })
-
+        });
     </script>
 </div>
+<div id="push-pearl-postmap" style="height: 25px;"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 style="text-align: center;"><i>{{ obj_show['prop_name'] }}</i></h1>
-            <br>
+            <h1 style="text-align: center;">Current Species: <i>{{ obj_show['prop_name'] }}</i></h1>
             <div class="container" style="padding: 10px; ">
-                <br>
-                <table id="csv_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
+                <table id="csv-table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="280">
                     <thead>
                         <tr class="click-row" data-href="/">
                             <th data-field="id" data-sortable="true">Species ID</th>

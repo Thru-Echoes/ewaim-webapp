@@ -19,7 +19,7 @@ And an [example app here.](http://ireapps.github.io/first-news-app/build/index.h
 
 - [X] Make nav_layout.html for web app skeleton
 - [X] Create Flask layout for maps
-- [ ] Create Flask layout for data analysis results etc
+- [X] Create Flask layout for data analysis results etc
 - [ ] Pick data based on user event (local CSV Carbon vs CSV Twitter)
 - [ ] Make front page to select data (have world map background)
 - [ ] From selected data, render Carbon map

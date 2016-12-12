@@ -5,6 +5,8 @@ from werkzeug import secure_filename
 from flask_bootstrap import Bootstrap
 import os
 from ewaim import calculate
+from ewaim import get_csv
+from ewaim import mean_lat_long
 import csv
 import errno
 import json
@@ -46,15 +48,15 @@ def makePathExist(path):
 
 makePathExist('static/db')
 
-def get_csv(csv_path = "./static/csv/carbon_sample_sm.csv"):
+#def get_csv(csv_path = "./static/csv/carbon_sample_sm.csv"):
     #csv_path = "./static/csv/la-riots-deaths.csv"
     #csv_path = "./static/csv/carbon_sample_sm.csv"
-    csv_file = open(csv_path, 'r')
-    csv_obj = csv.DictReader(csv_file)
-    return list(csv_obj)
+#    csv_file = open(csv_path, 'r')
+#    csv_obj = csv.DictReader(csv_file)
+#    return list(csv_obj)
 
-def mean_lat_long(obj_csv):
-    print("obj_csv: ", obj_csv)
+#def mean_lat_long(obj_csv):
+#    print("obj_csv: ", obj_csv)
 
 
 ############################################################

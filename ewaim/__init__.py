@@ -5,6 +5,7 @@
 import argparse
 from unittest import TestCase
 import math
+import csv
 
 def check_args():
     parser = argparse.ArgumentParser(description = 'EWAIM: an extensible web app for interactive mapping')
@@ -19,9 +20,20 @@ def check_args():
     return(results.simple_math. results.fflag)
 
 def calculate(simple_math, f_flag = False):
-
     calc_return = eval(simple_math)
     return calc_return
+
+def get_csv(csv_path = "./static/csv/carbon_sample_sm.csv"):
+    #csv_path = "./static/csv/la-riots-deaths.csv"
+    #csv_path = "./static/csv/carbon_sample_sm.csv"
+    csv_file = open(csv_path, 'r')
+    csv_obj = csv.DictReader(csv_file)
+    return list(csv_obj)
+
+def mean_lat_long(obj_csv):
+    print("obj_csv: ", obj_csv)
+
+    #return list(lat_mean)
 
 if __name__ == '__main__':
     cli_args = check_args()
