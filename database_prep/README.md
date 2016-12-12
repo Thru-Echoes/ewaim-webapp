@@ -5,7 +5,7 @@ To use the database, first you need to install `Postgresql` and `PostGIS`.
 To do this on a mac:
 
 ```bash
-  brew install postgresql, postgis
+  brew install postgresql postgis
 ```
 And you need python packages `psycopg2` and `gdal`.
 
@@ -25,4 +25,4 @@ Then you can actually populate the database with the csv and shapefiles in this 
 ```
 
 After the database is populated properly, the `db_util.py`, which has some simple GIS function from `PostGIS` can be done,
-and called by the server. 
+and called by the server.
