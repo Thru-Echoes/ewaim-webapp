@@ -61,7 +61,7 @@ See `database_prep` folder.
 
 #### 3.2 To Do (Miao)
 
-- [ ] Assume frontend passes back 'use postgres' - make db connections
+- [X] Assume frontend passes back 'use postgres' - make db connections
 - [X] Use Geo-Alch
 - [ ] DATASHADER (Not going to be done now)
 - [X] Create GIS utility functions
