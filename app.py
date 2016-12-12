@@ -17,18 +17,18 @@ import psycopg2 as psy
 ############################################################
 
 ## Init the app
-#connection = psy.connect('dbname = tweets1k host = localhost')
-#cursor = connection.cursor()
+connection = psy.connect('dbname = tweets1k host = localhost')
+cursor = connection.cursor()
 
-#def query_sql():
-#    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def query_sql():
+    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
-#def county_topo():
-#    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def county_topo():
+    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
 UPLOAD_FOLDER = '/tmp/'
 app = Flask(__name__)
