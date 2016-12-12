@@ -7,8 +7,6 @@ To do this on a mac:
 ```bash
   brew install postgresql postgis
 ```
-And you need python packages `psycopg2` and `gdal`.
-
 After you have installed these two, please create a GIS database template:
 
 ```bash
@@ -17,6 +15,8 @@ After you have installed these two, please create a GIS database template:
   >>> create extension postgis;
   >>> create extension postgis_topology;
 ```
+
+Then you need to install python packages `gdal` and `psycopg2`. But the installation of python `gdal` is painful, see notes below. 
 
 Then you can actually populate the database with the csv and shapefiles in this folder:
 
