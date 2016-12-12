@@ -27,3 +27,9 @@ When you have all the dependencies installed, use:
 ```bash
   python raster_translation.py
 ```
+
+Once the script is finished, the tile maps are in `/pearl_data/tile_maps/`, you can put all the tile maps to the `../static/data/`. 
+
+# Please Note! 
+
+Although this script runs in parallel, the running time is still every long because of the tile map creation. In addition, since the `gdal` package might cause various problems, if you don't want to run it, it's OK, because all the data are already generated for the app. 
