@@ -85,10 +85,10 @@ OSX:
 - [ ] Assume frontend passes back 'use postgres' - make db connections
 - [X] Use Geo-Alch
 - [ ] DATASHADER (Not going to be done now)
-- [ ] Create GIS utility functions
-- [ ] Create shapefile utility functions
+- [X] Create GIS utility functions
+- [X] Create shapefile utility functions
     - [X] Functions importing shapefiles into python
-    - [ ] Functions importing imported shapefiles into database
+    - [X] Functions importing imported shapefiles into database
     - [X] Importing Pearl fliles
 - [ ] Create raster utility functions
     - [ ] Importing rasters into databases
