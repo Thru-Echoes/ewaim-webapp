@@ -115,58 +115,70 @@
                 createCorner('wildcard', 'left', true);
             }
             //addControlPlaceholders(map);
-
         </script>
     </div>
+    <div id="push-index-bottom0" style="height: 100px"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 style="text-align: center;">Welcome to EWAIM</h1>
-                <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
+                <h1 style="text-align: center;">Mapping PEARL</h1>
+                <h2 style="text-align: center;">
+                    The Parasite Extinction Assessment and Red List
+                </h2>
+                <br>
+                <h3 style="text-align: center;">
+                    <em>The world's first parasite conservation database</em>
+                </h3>
+                <br>
                 <h5 style="text-align: center;">Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
             </div>
         </div>
     </div>
-    <div id="push-index-bottom" style="height: 100px"></div>
-    <div class="container">
+    <div id="push-index-bottom1" style="height: 120px"></div>
+    <div class="container-fluid" style="background-color: rgba(238, 238, 238, 0.75)">
+        <div id="push-index-bottom2" style="height: 100px"></div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <!--form action="/" method="post">
-                            <button type="submit" value="True" name="carbon_go">
-                                <a href="#">Render Carbon map</a>
-                            </button>
-                        </form-->
-                        <h2>Pick data to use for rendering:</h2>
-                        <h3><small>Use either 'carbon' or 'pearl'</small></h3>
-                        <form role="form" method='POST' action=''>
-                            <div class="form-group">
-                                <input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required>
-                                <!--input type="radio" name="pick_data" value="carbon_go"/>
-                                <input type="radio" name="pick_data" value="pearl_go"/-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--form action="/" method="post">
+                                    <button type="submit" value="True" name="carbon_go">
+                                        <a href="#">Render Carbon map</a>
+                                    </button>
+                                </form-->
+                                <h2>Pick species to use for rendering:</h2>
+                                <h3><small>Use either 'abba' or ... <i>(coming soon...)</i></small></h3>
+                                <form role="form" method='POST' action=''>
+                                    <div class="form-group">
+                                        <input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required>
+                                        <!--input type="radio" name="pick_data" value="carbon_go"/>
+                                        <input type="radio" name="pick_data" value="pearl_go"/-->
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Render Map</button>
+                                </form>
                             </div>
-                            <button type="submit" class="btn btn-default">Render Map</button>
-                        </form>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
+                        <h3><em>Coming soon / beta mode functionality:</em></h3>
+                        <br>
+                        <ol>
+                            <li><p><a href="/get_calc">Ask simple math</a></p></li>
+                            <!--li><p><a href="/file_upload">Go to file upload page</a></p></li-->
+                            <li><p>Go to file upload page</p></li>
+                            <li><p>Time range based on <i>Bootstrap sliders</i></p></li>
+                            <li><p>Render map from backend based on user query</p></li>
+                        </ol>
+                        <br>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3><em>Coming soon / beta mode functionality:</em></h3>
-                <br>
-                <ol>
-                    <li><p><a href="/get_calc">Ask simple math</a></p></li>
-                    <!--li><p><a href="/file_upload">Go to file upload page</a></p></li-->
-                    <li><p>Go to file upload page</p></li>
-                    <li><p>Time range based on <i>Bootstrap sliders</i></p></li>
-                    <li><p>Render map from backend based on user query</p></li>
-                </ol>
-                <br>
-            </div>
         </div>
+        <div id="push-index-bottom" style="height: 300px;"></div>
     </div>
-    <div id="push-index-bottom" style="height: 300px;"></div>
 </div>
 {% endblock body %}

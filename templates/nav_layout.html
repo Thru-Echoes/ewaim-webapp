@@ -41,14 +41,12 @@
     {% block body %}{% endblock %}
 
     <!-- FOOTER -->
-    <div id="footer">
-        {% block footer %}
-        <footer class="footer">
-            <div class="container">
-                <p class="footer-text">This interactive database website is a collaborative project from Zhongqi Miao and Oliver Muellerklein</p>
-            </div>
-        </footer>
-        {% endblock %}
-    </div>
+    {% block footer %}
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">This interactive database website is a collaborative project from Zhongqi Miao and Oliver Muellerklein</p>
+        </div>
+    </footer>
+    {% endblock %}
 </body>
 </html>

@@ -2,6 +2,8 @@ from unittest import TestCase
 import math
 from numpy import inf, isinf, nan, isnan
 from ewaim import calculate
+from ewaim import get_csv
+from ewaim import mean_lat_long
 
 class TestOneNumber(TestCase):
     def test_floats(self):
@@ -10,3 +12,7 @@ class TestOneNumber(TestCase):
 
     def test_add(self):
         self.assertEqual(2 + 2, 4)
+
+    def test_latlong(self):
+        foo_latlong = mean_lat_long("tester")
+        self.assertEqual(foo_latlong, mean_lat_long("tester"))

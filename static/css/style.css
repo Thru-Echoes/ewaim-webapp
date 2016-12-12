@@ -101,6 +101,10 @@ h2 {
     height: 900px;
 }
 
+#map-intro {
+    height: 500px;
+}
+
 #single-point-map {
     height: 750px;
 }
@@ -324,12 +328,26 @@ h2 {
 ********************* FOOTER *********************
 *************************************************/
 
+.contain-all {
+    min-height: 100%;
+    margin-bottom: -100px;
+}
+
+.contain-all:after {
+    content: "";
+    display: block;
+}
+
+.footer, .contain-all:after {
+    height: 100px;
+}
+
 .footer {
     /*position: absolute;*/
-    bottom: 0;
-    width: 100%;
+    /*bottom: 0;
+    width: 100%;*/
     background-color: #333;
-    /*background-color: rgba(177, 177, 177, 0.95); */
+    /*background-color: rgba(177, 177, 177, 0.95);*/
 }
 
 .footer > .container {
@@ -344,4 +362,5 @@ h2 {
 .footer-text {
     /* color: #9d9d9d; */
     color: rgba(236, 236, 236, 0.7);
+    /*color: #000;*/
 }
