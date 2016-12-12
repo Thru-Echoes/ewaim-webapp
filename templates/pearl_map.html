@@ -95,9 +95,9 @@
         ***************************************/
 
         var tile_current_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/current/{z}/{x}/{y}.png";
-        var tile_ac45_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac45/{z}/{x}/{y}.png";
-        var tile_ac85_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/ac85/{z}/{x}/{y}.png";
-        var tile_bc26_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/bc26/{z}/{x}/{y}.png";
+        var tile_ac45_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/futureac45/{z}/{x}/{y}.png";
+        var tile_ac85_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/futureac85/{z}/{x}/{y}.png";
+        var tile_bc26_path = "./static/data/pearl-tiles/" + "{{ obj_show['pearl_sp'] }}" + "/futurebc26/{z}/{x}/{y}.png";
 
         // Overlay layers (TMS)
         var tile_current = L.tileLayer(tile_current_path, {tms: true, opacity: 0.8, attribution: ""});
@@ -189,7 +189,7 @@
             return this._div;
         };
         title.update = function(props) {
-            this._div.innerHTML = "{{ obj_show['prop_name'] }}";
+            this._div.innerHTML = "<h1>{{ obj_show['prop_name'] }}</h1>" + "<hr><h2><small>{{ obj_show['sub_name'] }}</small></h2>";
         };
         title.addTo(map);
 
@@ -200,7 +200,7 @@
         /*var num_points = point_data.features.length;
         var point_data_heat = point_data.features.map(function(p) {
             var ptnn = p.geometry.coordinates;
-            var crbn = p.properties.tot_carbon;
+            var crbn = p.properties.tot_carbon
             //debugger;
             return L.latLng(ptnn[1], ptnn[0], eval(crbn) * 0.05);
         });

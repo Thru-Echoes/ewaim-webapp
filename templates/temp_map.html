@@ -1,0 +1,351 @@
+{% extends "nav_layout.html" %}
+
+{% block body %}
+<!-- div id="push-top-index" style="height: 100px"></div -->
+<div class="container">
+    <!--div class="row">
+        <div class="col-md-12">
+            <h3>Select the database to use:</h3>
+            <br>
+            <div class="radio">
+                <label><input id="use-temp" type="radio" name="optradio">Use temp sample data</label>
+            </div>
+            <div class="radio">
+                <label><input id="use-twitter" type="radio" name="optradio">Use Twitter sample data</label>
+            </div>
+            <div class="radio disabled">
+                <label><input id="use-upload" type="radio" name="optradio" disabled>Upload your own CSV database <i>(coming soon...)</i></label>
+            </div>
+        </div>
+    </div-->
+</div>
+<div id="push-before-map" style="height: 10px;"></div>
+<div class="container-fluid" id="map-container">
+    <div id="map-id" style="width:100%;"></div>
+    <!--script src="./static/js/HeatLayer.js"></script>
+    <script src="./static/js/leaflet-heat.js"></script-->
+    <script src="./static/js/map-util.js"></script>
+    <script type="text/javascript">
+        $(window).load(function() {
+            var csv_data = {{ obj_list|tojson }};
+            $(function() {
+                $("#csv_table").bootstrapTable({
+                    data: csv_data
+                });
+            });
+        });
+
+        $(document).ready(function($) {
+            $(".click-row").click(function() {
+                window.document.location = $(this).data("href");
+                //window.location = $(this).data("url");
+            });
+        });
+
+        /***************************************
+        * Various basemaps
+        ***************************************/
+
+        //  .. OpenStreetMap
+        var osm_base = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
+
+        //  .. CartoDB Positron
+        var cartodb_base = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'});
+
+        //  .. OSM Toner
+        var toner_base = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'});
+
+        //  .. White background
+        var white_base = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==");
+
+        var basemaps = {"OpenStreetMap": osm_base, "CartoDB Basemap": cartodb_base, "Stamen Toner": toner_base, "Remove background (white)": white_base};
+
+        /***************************************
+        * Set params for core map
+        ***************************************/
+
+        var init_lat = {{ obj_show['init_lat'] }};
+        var init_long = {{ obj_show['init_long'] }};
+        var init_zoom = {{ obj_show['init_zoom'] }};
+        var is_point = {{ obj_show['show_points'] }};
+        var is_states = {{ obj_show['show_states'] }};
+        var is_popup = {{ obj_show['show_popup'] }};
+
+        /***************************************
+        * Set core map
+        ***************************************/
+
+        //var map = L.map('map-id').setView([34.055, -118.35], 9);
+        //var map = L.map('map-id').setView([init_lat, init_long], init_zoom);
+        var map = L.map('map-id', {
+            center: [init_lat, init_long],
+            zoom: init_zoom,
+            minZoom: 3,
+            maxZoom: 6,
+            layers: [cartodb_base]
+        });
+
+        /***************************************
+        * Set controls over map
+        ***************************************/
+        //var geojson;
+        var state_info = L.control({position: 'bottomleft'});
+        var point_info = L.control({position: 'bottomright'});
+        /*var cntr_info = L.control({position: 'bottomleft'});*/
+
+        state_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'state_info'); // create a div with a class "state_info"
+            this.state_update();
+            return this._div;
+        };
+        point_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'point_info'); // create a div with a class "point_info"
+            this.point_update();
+            return this._div;
+        };
+        /*cntr_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'cntr_info'); // create a div with a class "cntr_info"
+            this.cntr_update();
+            return this._div;
+        };*/
+
+        // method that we will use to update the control based on feature properties passed
+        state_info.state_update = function(props) {
+            this._div.innerHTML = '<h3>States</h3><hr>' +  (props ?
+                '<h4><b>' + props.name + '</b></h4><br/>' +
+                /*'<div class="container-fluid"><div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div></div>'*/
+                '<div class="row"><div class="col-md-6"><h5>Density: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.density + '</h5></div></div>'
+                : 'Hover over a state');
+        };
+        // method that we will use to update the control based on feature properties passed
+        point_info.point_update = function(props) {
+            this._div.innerHTML = '<h3>Points</h3><hr>' +  (props ?
+                '<h4><b>' + props.pedon_key + '</b></h4><br/>' +
+                '<div class="container-fluid"><div class="row"><div class="col-md-6"><h5>Pendon Key: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.pedon_key + '</h5></div></div>' +
+                '<div class="row"><div class="col-md-6"><h5>Site ID: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.site_id + '</h5></div></div>' +
+                '<div class="row"><div class="col-md-6"><h5>Temperature <i>(kg)</i>: </h5></div>' +
+                '<div class="col-md-6"><h5>' + props.temp + '</h5></div></div></div>'
+                : 'Hover over a point');
+        };
+        /*cntr_info.cntr_update = function(props) {
+            this._div.innerHTML = '<div class="row">' +
+                '<div class="col-md-12"><h3>Turn layers on / off:</h3><br>' +
+                '<div class="radio"><label><input id="use-state" type="radio" name="optradio"' +
+                'value="false">Show state boundaries as polygons</label></div><div class="radio">' +
+                '<label><input id="use-points" type="radio" name="optradio" value="false">' +
+                'Show spatial points</label></div><div class="radio disabled">' +
+                '<label><input id="use-upload" type="radio" name="optradio" disabled>' +
+                'Upload your own CSV database <i>(coming soon...)</i></label>' +
+                '</div></div></div>';
+        };*/
+
+        // Change the position of the Zoom Control to a newly created placeholder.
+        //map.zoomControl.setPosition('verticalcenterright');
+
+        // You can also put other controls in the same placeholder.
+        // L.control.scale({position: 'verticalcenterright'}).addTo(map);
+
+        L.control.scale({position: 'topleft'}).addTo(map);
+        var intro_info = L.control({position: 'topleft'});
+
+        intro_info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'intro_info');
+            this.intro_update();
+            return this._div;
+        };
+        intro_info.intro_update = function(props) {
+            this._div.innerHTML = '<div class="row">' +
+                '<div class="col-md-12"><h3>Turn layers on / off:</h3><br>' +
+                '<div class="radio"><label><input id="use-state" type="radio" name="optradio"' +
+                'value="false">Show state boundaries as polygons</label></div><div class="radio">' +
+                '<label><input id="use-points" type="radio" name="optradio" value="false">' +
+                'Show spatial points</label></div><div class="radio disabled">' +
+                '<label><input id="use-upload" type="radio" name="optradio" disabled>' +
+                'Upload your own CSV database <i>(coming soon...)</i></label>' +
+                '</div></div></div>';
+        };
+
+        /*var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            minZoom: 3,
+            maxZoom: 8,
+            attribution: 'Data, imagery and map information provided by <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>.'
+        });
+        map.addLayer(osmLayer);*/
+        state_info.addTo(map);
+        /* intro_info.addTo(map); */
+        //map.addControl(new main_menu());
+        /* cntr_info.addTo(map);*/
+        /* Change placement of zoom */
+        //map.zoomControl.setPosition('verticalcenterleft');
+
+        /* Add US state polygons */
+        if (is_states) {
+            /* statesData from ./static/db/us_states.js */
+            /* L.geoJson(statesData).addTo(map);*/
+
+            var states_layer = L.geoJson(statesData, {
+                style: style,
+                onEachFeature: onEachFeature
+            });
+        }
+        /* Add point data */
+        if (is_point) {
+            var point_data = {
+                "type": "FeatureCollection",
+                "features": [
+                    {% for obj in obj_list %}
+                    {
+                        "type": "Feature",
+                        "properties": {
+                        "pedon_key": "{{ obj.pedon_key }}",
+                        "temp": "{{ obj.temp }}",
+                        "site_id": "{{ obj.user_site_id }}"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [{{ obj.long }}, {{ obj.lat }}]
+                    }
+                    }{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                ]
+            };
+            if (is_popup) {
+                // Show popup for victim name
+                var point_data_layer = L.geoJson(point_data, {
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(
+                            '<a href="' + feature.properties.pedon_key + '/">' +
+                            feature.properties.site_id + '</a>'
+                        );
+                        layer.on({
+                            mouseover: point_feature,
+                            mouseout: point_reset,
+                        });
+                    }
+                });
+                //map.addLayer(point_data_layer);
+            } else {
+                var point_data_layer = L.geoJson(point_data);
+                //map.addLayer(point_data_layer);
+            }
+            point_info.addTo(map);
+        }
+
+        /***************************************
+        * Simple heatmpa
+        ***************************************/
+
+        var num_points = point_data.features.length;
+        var point_data_heat = point_data.features.map(function(p) {
+            var ptnn = p.geometry.coordinates;
+            var crbn = p.properties.tot_temp;
+            //debugger;
+            return L.latLng(ptnn[1], ptnn[0], eval(crbn) * 0.05);
+        });
+        var heat = L.heatLayer(point_data_heat, {radius: 25});
+
+        var overlaymaps = {
+            "Toggle States": states_layer,
+            "Toggle Points": point_data_layer,
+            "Toggle Heatmap": heat,
+        };
+        L.control.layers(basemaps, overlaymaps, {collpased: false}).addTo(map);
+
+        /***************************************
+        * Misc.
+        ***************************************/
+
+        /* Adjust map layout for menu + zoom controls */
+
+        var this_height = $('#map-id').height();
+        var main_menu = $(".main-menu");
+        main_menu.attr("id", "main-menu-id");
+        var menu_zoom = main_menu.parent();
+        menu_zoom.attr("id", "menu-zoom-id");
+        var zoom_div = menu_zoom.children()[0];
+        var menu_div = menu_zoom.children()[1];
+        $(zoom_div).insertAfter(menu_div);
+
+        /* Fire functions on button click */
+        /* $("#menu-btn1").click(function(e) {
+            //debugger;
+            var is_layer = map.hasLayer(states_layer);
+
+            if (is_layer) {
+                map.removeLayer(states_layer);
+                $("#menu-btn1 > button").attr("style", "background-color: rgba(0, 0, 0, 0.2)");
+            } else {
+                map.addLayer(states_layer);
+                $("#menu-btn1 > button").attr("style", "background-color: white");
+            }
+        }); */
+
+        /*var main_menu = L.Control.extend({
+            options: {position: 'topleft'},
+            initialize: function(latlng) {
+                // save position of the layer or any options from the constructor
+                //this._latlng = latlng;
+            },
+            onAdd: function(map) {
+                this._div = L.DomUtil.create('div', 'main-menu');
+
+                var fill_text = '<div class="container"><div class="row"><div id="menu-col1" class="col-md-2"><div class="row"><div class="col-md-12"><h2>&equiv; Menu</h2></div></div></div>' +
+                '<div class="col-md-10"><div class="row"><div id="menu-col2" class="col-md-3"><div id="menu-btn1" class="btn-group btn-group-lg" role="group"' + 'aria-label="..."><button type="button" class="btn btn-info">Toggle States</button></div>' +
+                '</div><div id="menu-col3" class="col-md-3"><div id="menu-btn2" class="btn-group btn-group-lg"' + 'role="group" aria-label="..."><button type="button" class="btn btn-info">Toggle Points</button></div>' +
+                '</div><div id="menu-col4" class="col-md-3"><div id="menu-btn3" class="btn-group btn-group-lg"' + 'role="group" aria-label="..."><button type="button" class="btn btn-info">Toggle Heatmaps</button></div>' +
+                '</div><div id="menu-col5" class="col-md-3"><div id="menu-btn4" class="btn-group btn-group-lg"' +
+                'role="group" aria-label="..."><button type="button" class="btn btn-info">Toggle PEARL</button></div>' +
+                '</div></div></div></div>';
+                this._div.innerHTML = fill_text;
+                map.getPanes().overlayPane.appendChild(this._div);
+                L.DomEvent.on(this._div, "click", this._click);
+                // add a viewreset event listener for updating layer's position, do the latter
+                map.on('viewreset', this._reset, this);
+                this._reset();
+                return this._div;
+            },
+            _click: function(e) {
+                L.DomEvent.stop(e);
+                //alert(50);
+            },
+            _reset: function() {
+                // update layer's position
+                //var pos = this._map.latLngToLayerPoint(this._latlng);
+                //L.DomUtil.setPosition(this._div, pos);
+            }
+        });*/
+    </script>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="text-align: center;">{{ obj_show['data_name'] }}</h1>
+            <br>
+            <!--{{ obj_list }}-->
+            <div class="container" style="padding: 10px; ">
+                <br>
+                <table id="csv_table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
+                    <thead>
+                        <tr class="click-row" data-href="/">
+                            <th data-field="user_site_id" data-sortable="true">Site ID</th>
+                            <th data-field="pedon_key" data-sortable="true">Pedon Key</th>
+                            <th data-field="lat" data-sortable="true">Latitude</th>
+                            <th data-field="long" data-sortable="true">Longitude</th>
+                            <th data-field="elevation" data-sortable="true">Elevation</th>
+                            <th data-field="precip" data-sortable="true">Precipitation</th>
+                            <th data-field="temp" data-sortable="true">Temperature</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="push-index-bottom" style="height: 100px;"></div>
+
+{% endblock body %}

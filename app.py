@@ -69,12 +69,12 @@ def index():
                 if req_raw == "pearl":
                     return render_template("pick_pearl_sp.html")
 
-                elif req_raw == "carbon":
+                elif req_raw == "temp":
                     obj_list = get_csv()
                     init_lat = 36.23418283
                     init_long = -116.8341902
                     init_zoom = 6
-                    data_name = "Carbon Samples"
+                    data_name = "Temperature Samples"
                     show_points = "true"
                     show_states = "true"
                     show_popup = "true"
@@ -87,7 +87,7 @@ def index():
                         "show_states" : show_states,
                         "show_popup" : show_popup,
                     }
-                    return render_template("carbon_map.html", obj_list = obj_list, obj_show = obj_show)
+                    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show)
 
                 elif req_raw == "abba":
                     init_zoom = 3
@@ -96,9 +96,11 @@ def index():
                     data_name = "Global Parasite Distributions"
                     pearl_sp = "abbreviata_bancrofti"
                     prop_name = "Abbreviata bancrofti"
+                    sub_name = ""
                     obj_show = {
                         "pearl_sp" : pearl_sp,
                         "prop_name" : prop_name,
+                        "sub_name" : sub_name,
                         "data_name" : data_name,
                         "init_zoom" : init_zoom,
                         "init_lat" : init_lat,
@@ -107,6 +109,72 @@ def index():
                     ## Pull in PEARL metadata
                     obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
+                    return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
+
+                elif req_raw == "aslo":
+                    init_zoom = 3
+                    init_lat = 11.252725743861603
+                    init_long = -0.005242086131886481
+                    data_name = "Global Parasite Distributions"
+                    pearl_sp = "ascocotyle_longa"
+                    prop_name = "Ascocotyle longa"
+                    sub_name = ""
+                    obj_show = {
+                        "pearl_sp" : pearl_sp,
+                        "prop_name" : prop_name,
+                        "sub_name" : sub_name,
+                        "data_name" : data_name,
+                        "init_zoom" : init_zoom,
+                        "init_lat" : init_lat,
+                        "init_long" : init_long
+                    }
+                    ## Pull in PEARL metadata
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ASCOCOTYLE_LONGA.csv")
+                    return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
+
+                elif req_raw == "ctca":
+                    init_zoom = 3
+                    init_lat = 11.252725743861603
+                    init_long = -0.005242086131886481
+                    data_name = "Global Parasite Distributions"
+                    pearl_sp = "ctenocephalides_canis"
+                    prop_name = "Ctenocephalides canis"
+                    sub_name = "Common dog flea"
+                    obj_show = {
+                        "pearl_sp" : pearl_sp,
+                        "prop_name" : prop_name,
+                        "sub_name" : sub_name,
+                        "data_name" : data_name,
+                        "init_zoom" : init_zoom,
+                        "init_lat" : init_lat,
+                        "init_long" : init_long
+                    }
+                    ## Pull in PEARL metadata
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/CTENOCEPHALIDES_CANIS.csv")
+                    return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
+
+                elif req_raw == "zylu":
+                    init_zoom = 3
+                    init_lat = 11.252725743861603
+                    init_long = -0.005242086131886481
+                    data_name = "Global Parasite Distributions"
+                    pearl_sp = "zygocotyle_lunata"
+                    prop_name = "Zygocotyle lunata"
+                    sub_name = ""
+                    obj_show = {
+                        "pearl_sp" : pearl_sp,
+                        "prop_name" : prop_name,
+                        "sub_name" : sub_name,
+                        "data_name" : data_name,
+                        "init_zoom" : init_zoom,
+                        "init_lat" : init_lat,
+                        "init_long" : init_long
+                    }
+                    ## Pull in PEARL metadata
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ZYGOCOTYLE_LUNATA.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
                 else:
@@ -118,18 +186,18 @@ def index():
 
     return render_template("index.html")
 
-@app.route("/carbon_map", methods = ["GET", "POST"])
-def carbon_map():
+@app.route("/temp_map", methods = ["GET", "POST"])
+def temp_map():
     if request.method == "POST":
         print("\n------")
-        print("POST request in carbon_map")
+        print("POST request in temp_map")
         print("------\n")
 
     obj_list = get_csv()
     init_lat = 36.23418283
     init_long = -116.8341902
     init_zoom = 6
-    data_name = "Carbon Samples"
+    data_name = "Temperature Samples"
     show_points = "true"
     show_states = "true"
     show_popup = "true"
@@ -142,7 +210,7 @@ def carbon_map():
         "show_states" : show_states,
         "show_popup" : show_popup,
     }
-    return render_template("carbon_map.html", obj_list = obj_list, obj_show = obj_show)
+    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show)
 
 @app.route("/pick_pearl_sp", methods = ["GET", "POST"])
 def pick_pearl_sp():
@@ -174,13 +242,6 @@ def pick_pearl_sp():
                     ## Pull in PEARL metadata
                     obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
-
-                    print("\n\n")
-                    print("Print at end of pick_pearl_sp")
-                    print("obj_meta: ", obj_meta)
-                    print("obj_sp: ", obj_sp)
-                    print("\n\n")
-
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
 
