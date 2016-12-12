@@ -34,9 +34,10 @@ This interactive database website is a collaborative project from Zhongqi Miao a
     $ python3 setup.py test
 ```
 
-#### 2.2 Database Setup for PostGreSQL
+#### 2.2 Data Preparation
 
-See `database_prep` folder.
+- See `database_prep` folder for database setup.
+- See `raster_data_prep` folder for raster data preparation.
 
 ## 3. Future Development
 
