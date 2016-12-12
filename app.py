@@ -17,18 +17,18 @@ import psycopg2 as psy
 ############################################################
 
 ## Init the app
-#connection = psy.connect('dbname = tweets1k host = localhost')
-#cursor = connection.cursor()
+connection = psy.connect('dbname = tweets1k host = localhost')
+cursor = connection.cursor()
 
-#def query_sql():
-#    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def query_sql():
+    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
-#def county_topo():
-#    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def county_topo():
+    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
 UPLOAD_FOLDER = '/tmp/'
 app = Flask(__name__)
@@ -75,6 +75,26 @@ def index():
                     init_long = -116.8341902
                     init_zoom = 6
                     data_name = "Carbon Samples"
+                    show_points = "true"
+                    show_states = "true"
+                    show_popup = "true"
+                    obj_show = {
+                        "data_name" : data_name,
+                        "init_zoom" : init_zoom,
+                        "init_lat" : init_lat,
+                        "init_long" : init_long,
+                        "show_points" : show_points,
+                        "show_states" : show_states,
+                        "show_popup" : show_popup,
+                    }
+                    return render_template("carbon_map.html", obj_list = obj_list, obj_show = obj_show)
+
+                elif req_raw == "tweets":
+                    obj_list = get_csv()
+                    init_zoom = 3
+                    init_lat = 11.252725743861603
+                    init_long = -0.005242086131886481
+                    data_name = "Twitter Data"
                     show_points = "true"
                     show_states = "true"
                     show_popup = "true"
