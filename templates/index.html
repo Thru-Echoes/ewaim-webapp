@@ -118,6 +118,7 @@
 
         </script>
     </div>
+    <div id="push-index-top1" style="height: 100px"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -127,49 +128,62 @@
             </div>
         </div>
     </div>
-    <div id="push-index-bottom" style="height: 100px"></div>
-    <div class="container">
+    <div id="push-index-bottom1" style="height: 150px"></div>
+    <div class="container-fluid" style="background-color: rgba(238, 238, 238, 0.75)">
+        <div id="push-index-bottom2" style="height: 100px"></div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <!--form action="/" method="post">
-                            <button type="submit" value="True" name="temp_go">
-                                <a href="#">Render temp map</a>
-                            </button>
-                        </form-->
-                        <h2>Pick data to use for rendering:</h2>
-                        <br>
-                        <p>We have example data for <b>Temperature Sampling</b> <i>(i.e. temp)</i> as well as <b>Parasite Distribution Models / Maps</b> <i>(i.e. pearl)</i>. There is data for four different species from the PEARL project, including models / maps of the projected current distributions as well as three climate trend models of future distributions.</p>
-                        <br>
-                        <h3><small>Use either 'temp' or 'pearl'</small></h3>
-                        <form role="form" method='POST' action=''>
-                            <div class="form-group">
-                                <input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required>
-                                <!--input type="radio" name="pick_data" value="temp_go"/>
-                                <input type="radio" name="pick_data" value="pearl_go"/-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>Pick data to use for rendering:</h2>
+                                <br>
+                                <p>We have example data for <b>Temperature Sampling</b> <i>(i.e. temp)</i> as well as <b>Parasite Distribution Models / Maps</b> <i>(i.e. pearl)</i>. There is data for four different species from the PEARL project, including models / maps of the projected current distributions as well as three climate trend models of future distributions.</p>
+                                <br>
+                                <form role="form" method='POST' action=''>
+                                    <div class="form-group">
+                                        <!--input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required-->
+                                        <fieldset class="form-group">
+                                            <legend>Example Data to Use:</legend>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-temp" checked>
+                                                    Use Temperature Sample example data
+                                                </label>
+                                            </div>
+                                            <hr>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option-pearl">
+                                                    Use PEARL example data (4 species)
+                                                </label>
+                                            </div>
+                                        </fieldset>
+                                        <!--input type="radio" name="pick_data" value="temp_go"/>
+                                        <input type="radio" name="pick_data" value="pearl_go"/-->
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Render Map</button>
+                                </form>
                             </div>
-                            <button type="submit" class="btn btn-default">Render Map</button>
-                        </form>
+                        </div>
                     </div>
                     <div class="col-md-6">
+                        <h3><em>Coming soon / beta mode functionality:</em></h3>
+                        <br>
+                        <ol>
+                            <li><p><a href="/get_calc">Ask simple math <small>(simple string input as math expression currently working but will turn into complicated math queries / data analysis performed on data or subset of data)</small></a></p></li>
+                            <!--li><p><a href="/file_upload">Go to file upload page</a></p></li-->
+                            <li><p>Go to file upload page <small>(SQL or CSV upload - CSV currently working but ignored for this prototype)</small></p></li>
+                            <li><p>Time range based on <i>Bootstrap sliders</i></p></li>
+                            <li><p>Render map from backend based on user query</p></li>
+                        </ol>
+                        <br>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3><em>Coming soon / beta mode functionality:</em></h3>
-                <br>
-                <ol>
-                    <li><p><a href="/get_calc">Ask simple math <small>(simple string input as math expression currently working but will turn into complicated math queries / data analysis performed on data or subset of data)</small></a></p></li>
-                    <!--li><p><a href="/file_upload">Go to file upload page</a></p></li-->
-                    <li><p>Go to file upload page <small>(SQL or CSV upload - CSV currently working but ignored for this prototype)</small></p></li>
-                    <li><p>Time range based on <i>Bootstrap sliders</i></p></li>
-                    <li><p>Render map from backend based on user query</p></li>
-                </ol>
-                <br>
-            </div>
         </div>
+        <div id="push-index-bottom" style="height: 300px;"></div>
     </div>
-    <div id="push-index-bottom" style="height: 400px;"></div>
 </div>
 {% endblock body %}

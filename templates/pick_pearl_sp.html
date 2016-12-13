@@ -143,17 +143,36 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
-                                <!--form action="/" method="post">
-                                    <button type="submit" value="True" name="temp_go">
-                                        <a href="#">Render temp map</a>
-                                    </button>
-                                </form-->
-                                <h2>Pick species to use for rendering:</h2>
-                                <h3><small>Use one of the following: </small></h3>
-                                <h3><b>abba, aslo, ctca, zylu</b></h3>
                                 <form role="form" method='POST' action=''>
                                     <div class="form-group">
-                                        <input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required>
+                                        <!--input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required-->
+                                        <fieldset class="form-group">
+                                            <legend>Example Species to Use:</legend>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-abba" checked>
+                                                    Species: <i>Abbreviata bancrofti</i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-aslo" checked>
+                                                    Species: <i>Ascocotyle longa</i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-ctca" checked>
+                                                    Species: <i>Ctenocephalides canis</i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-zylu" checked>
+                                                    Species: <i>Zygocotyle lunata</i>
+                                                </label>
+                                            </div>
+                                        </fieldset>
                                         <!--input type="radio" name="pick_data" value="temp_go"/>
                                         <input type="radio" name="pick_data" value="pearl_go"/-->
                                     </div>
