@@ -58,6 +58,11 @@ def index():
 
                 elif req_raw == "option-temp":
                     obj_list = get_csv()
+
+                    st_cali = get_state(state = "California")
+                    st_arzn = get_state(state = "Arizona")
+                    st_nvda = get_state(state = "Nevada")
+
                     init_lat = 36.23418283
                     init_long = -116.8341902
                     init_zoom = 6
@@ -74,7 +79,7 @@ def index():
                         "show_states" : show_states,
                         "show_popup" : show_popup,
                     }
-                    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show)
+                    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show, st_cali = st_cali)
 
                 elif req_raw == "option-abba":
                     init_zoom = 3
@@ -185,11 +190,6 @@ def temp_map():
     st_cali = get_state(state = "California")
     st_arzn = get_state(state = "Arizona")
     st_nvda = get_state(state = "Nevada")
-
-    print("\n\n------")
-    print("st_cali: ", st_cali)
-    print("\nobj_list: ", obj_list)
-    print("\n\n")
 
     init_lat = 36.23418283
     init_long = -116.8341902
