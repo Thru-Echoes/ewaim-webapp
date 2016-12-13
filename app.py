@@ -11,6 +11,7 @@ import csv
 import errno
 import json
 import psycopg2 as psy
+from static.py.db_util import *
 
 ############################################################
 ############################################################
@@ -194,6 +195,16 @@ def temp_map():
         print("------\n")
 
     obj_list = get_csv()
+
+    st_cali = get_state(state = "California")
+    st_arzn = get_state(state = "Arizona")
+    st_nvda = get_state(state = "Nevada")
+
+    print("\n\n------")
+    print("st_cali: ", st_cali)
+    print("\nobj_list: ", obj_list)
+    print("\n\n")
+
     init_lat = 36.23418283
     init_long = -116.8341902
     init_zoom = 6
@@ -210,7 +221,7 @@ def temp_map():
         "show_states" : show_states,
         "show_popup" : show_popup,
     }
-    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show)
+    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show, st_cali = st_cali)
 
 @app.route("/pick_pearl_sp", methods = ["GET", "POST"])
 def pick_pearl_sp():

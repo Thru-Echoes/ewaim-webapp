@@ -39,7 +39,9 @@ This interactive database website is a collaborative project from Zhongqi Miao a
 - See `database_prep` folder for database setup.
 - See `raster_data_prep` folder for raster data preparation.
 
-For the sake of this project submission we provide pre-made CSVs for the data instead. This is because installing packages / modules **GDAL** can likely cause system-based errors. Normally we will use proper database connections (as our utility functions show) for connections to the data for layers and analysis.   
+For the sake of this project submission we provide pre-made CSVs and database (*database_prep/temperature.gz*) for the data instead. This is because installing packages / modules **GDAL** can likely cause system-based errors. Normally we will use proper database connections (as our utility functions show) for connections to the data for layers and analysis.
+
+**NOTE:** follow instructions in **database_prep** and **raster_data_prep**    
 
 **NOTE:** must install all database dependencies as described in *database_prep/README.md* for the non-example version of this app!
 
