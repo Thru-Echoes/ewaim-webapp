@@ -17,18 +17,18 @@ import psycopg2 as psy
 ############################################################
 
 ## Init the app
-#connection = psy.connect('dbname = tweets1k host = localhost')
-#cursor = connection.cursor()
+connection = psy.connect('dbname = tweets1k host = localhost')
+cursor = connection.cursor()
 
-#def query_sql():
-#    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def query_sql():
+    sql_cmd = "select ST_AsGeoJSON(geom) from ca_census_tract where name10 = 'Orange';"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
-#def county_topo():
-#    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
-#    cursor.execute(sql_cmd)
-#    return cursor.fetchall()
+def county_topo():
+    sql_cmd = "SELECT name10, ST_AsGeoJSON(geom) from ca_census_tract;"
+    cursor.execute(sql_cmd)
+    return cursor.fetchall()
 
 UPLOAD_FOLDER = '/tmp/'
 app = Flask(__name__)
@@ -59,17 +59,15 @@ def index():
     if request.method == "POST":
         print("\n------")
         print("POST request in index")
-        #print("request.form['query_string']: ", request.form['query_string'])
         print("------\n")
 
-        if request.form['query_string']:
-
+        if request.form['optionsRadios']:
             try:
-                req_raw = request.form['query_string']
-                if req_raw == "pearl":
+                req_raw = request.form['optionsRadios']
+                if req_raw == "option-pearl":
                     return render_template("pick_pearl_sp.html")
 
-                elif req_raw == "temp":
+                elif req_raw == "option-temp":
                     obj_list = get_csv()
                     init_lat = 36.23418283
                     init_long = -116.8341902
@@ -89,7 +87,7 @@ def index():
                     }
                     return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show)
 
-                elif req_raw == "abba":
+                elif req_raw == "option-abba":
                     init_zoom = 3
                     init_lat = 11.252725743861603
                     init_long = -0.005242086131886481
@@ -111,7 +109,7 @@ def index():
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
-                elif req_raw == "aslo":
+                elif req_raw == "option-aslo":
                     init_zoom = 3
                     init_lat = 11.252725743861603
                     init_long = -0.005242086131886481
@@ -133,7 +131,7 @@ def index():
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ASCOCOTYLE_LONGA.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
-                elif req_raw == "ctca":
+                elif req_raw == "option-ctca":
                     init_zoom = 3
                     init_lat = 11.252725743861603
                     init_long = -0.005242086131886481
@@ -155,7 +153,7 @@ def index():
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/CTENOCEPHALIDES_CANIS.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
-                elif req_raw == "zylu":
+                elif req_raw == "option-zylu":
                     init_zoom = 3
                     init_lat = 11.252725743861603
                     init_long = -0.005242086131886481
