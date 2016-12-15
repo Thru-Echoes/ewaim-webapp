@@ -63,6 +63,19 @@
             model_li.html(model_string + " (Red)");
             native_li.html(native_string);
             global_li.html(global_string);
+
+            for (var i = 3; i < model_data.length; i++) {
+
+                model_string = model_data[i]["Model"];
+                native_string = model_data[i]["native_habitat_change"];
+                global_string = model_data[i]["global_habitat_change"];
+                model_li = $("#Model" + (i + 1))
+                native_li = $("#native_habitat_change" + (i + 1));
+                global_li = $("#global_habitat_change" + (i + 1));
+                model_li.html(model_string);
+                native_li.html(native_string);
+                global_li.html(global_string);
+            }
         });
 
         $(document).ready(function($) {
@@ -140,15 +153,60 @@
                 '<div class="row"><div class="col-md-4"><h5><b>Model</b></h5>' +
                 '<ul style="list-style-type:none; padding-left: 1px;"><li id="Model1" style="color: rgba(0, 128, 0, 0.6)">foo1</li><br>' +
                 '<li id="Model2" style="color: rgba(204, 204, 0, 0.8)">foo2</li><br>' +
-                '<li id="Model3" style="color: rgba(255, 0, 0, 0.6)">foo3</li><br></ul>' +
+                '<li id="Model3" style="color: rgba(255, 0, 0, 0.6)">foo3</li><br>' +
+                '<li id="Model4">foo4</li><br>' +
+                '<li id="Model5">foo5</li><br>' +
+                '<li id="Model6">foo6</li><br>' +
+                '<li id="Model7">foo7</li><br>' +
+                '<li id="Model8">foo8</li><br>' +
+                '<li id="Model9">foo9</li><br>' +
+                '<li id="Model10">foo10</li><br>' +
+                '<li id="Model11">foo11</li><br>' +
+                '<li id="Model12">foo12</li><br>' +
+                '<li id="Model13">foo13</li><br>' +
+                '<li id="Model14">foo14</li><br>' +
+                '<li id="Model15">foo15</li><br>' +
+                '<li id="Model16">foo16</li><br>' +
+                '<li id="Model17">foo17</li><br>' +
+                '<li id="Model18">foo18</li><br></ul>' +
                 '</div><div class="col-md-4"><p><b>Native Habitat Change</b></p>' +
                 '<ul style="list-style-type:none;"><li id="native_habitat_change1">native1</li><br>' +
                 '<li id="native_habitat_change2">native2</li><br>' +
-                '<li id="native_habitat_change3">native3</li><br></ul>' +
+                '<li id="native_habitat_change3">native3</li><br>' +
+                '<li id="native_habitat_change4">native4</li><br>' +
+                '<li id="native_habitat_change5">native5</li><br>' +
+                '<li id="native_habitat_change6">native6</li><br>' +
+                '<li id="native_habitat_change7">native7</li><br>' +
+                '<li id="native_habitat_change8">native8</li><br>' +
+                '<li id="native_habitat_change9">native9</li><br>' +
+                '<li id="native_habitat_change10">native10</li><br>' +
+                '<li id="native_habitat_change11">native11</li><br>' +
+                '<li id="native_habitat_change12">native12</li><br>' +
+                '<li id="native_habitat_change13">native13</li><br>' +
+                '<li id="native_habitat_change14">native14</li><br>' +
+                '<li id="native_habitat_change15">native15</li><br>' +
+                '<li id="native_habitat_change16">native16</li><br>' +
+                '<li id="native_habitat_change17">native17</li><br>' +
+                '<li id="native_habitat_change18">native18</li><br></ul>' +
                 '</div><div class="col-md-4"><p><b>Global Habitat Change</b></p>' +
                 '<ul style="list-style-type:none;"><li id="global_habitat_change1">global1</li><br>' +
                 '<li id="global_habitat_change2">global2</li><br>' +
-                '<li id="global_habitat_change3">global3</li><br></ul>' +
+                '<li id="global_habitat_change3">global3</li><br>' +
+                '<li id="global_habitat_change4">global4</li><br>' +
+                '<li id="global_habitat_change5">global5</li><br>' +
+                '<li id="global_habitat_change6">global6</li><br>' +
+                '<li id="global_habitat_change7">global7</li><br>' +
+                '<li id="global_habitat_change8">global8</li><br>' +
+                '<li id="global_habitat_change9">global9</li><br>' +
+                '<li id="global_habitat_change10">global10</li><br>' +
+                '<li id="global_habitat_change11">global11</li><br>' +
+                '<li id="global_habitat_change12">global12</li><br>' +
+                '<li id="global_habitat_change13">global13</li><br>' +
+                '<li id="global_habitat_change14">global14</li><br>' +
+                '<li id="global_habitat_change15">global15</li><br>' +
+                '<li id="global_habitat_change16">global16</li><br>' +
+                '<li id="global_habitat_change17">global17</li><br>' +
+                '<li id="global_habitat_change18">global18</li><br></ul>' +
                 '</div></div>';
         };
         pearl_info.addTo(map);
@@ -263,7 +321,7 @@
         <div class="col-md-12">
             <h1 style="text-align: center;">Current Species: <i>{{ obj_show['prop_name'] }}</i></h1>
             <div class="container" style="padding: 10px; ">
-                <table id="csv-table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="280">
+                <table id="csv-table" data-toggle="true" data-show-columns="true" data-pagination="true" data-height="500">
                     <thead>
                         <tr class="click-row" data-href="/">
                             <th data-field="id" data-sortable="true">Species ID</th>

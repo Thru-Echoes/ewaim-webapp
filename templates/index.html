@@ -18,7 +18,6 @@
                     });
                 });*/
             });
-
             $(document).ready(function($) {
                 /*$(".click-row").click(function() {
                     window.document.location = $(this).data("href");
@@ -72,20 +71,6 @@
             * Simple heatmpa
             ***************************************/
 
-            var render_temp_map = function() {
-                debugger;
-            };
-
-            var render_pearl_map = function() {
-                debugger;
-            };
-
-            /*var overlaymaps = {
-                "Go to temp Map": render_temp_map,
-                "Go to PEARL Map": render_pearl_map
-            };
-            L.control.layers(basemaps, overlaymaps, {collpased: false}).addTo(map);*/
-
             /***************************************
             * Misc.
             ***************************************/
@@ -115,20 +100,26 @@
                 createCorner('wildcard', 'left', true);
             }
             //addControlPlaceholders(map);
-
         </script>
     </div>
-    <div id="push-index-top1" style="height: 100px"></div>
+    <div id="push-index-bottom0" style="height: 100px"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 style="text-align: center;">Welcome to EWAIM</h1>
-                <h2 style="text-align: center;"><small>An <strong>E</strong>xtensible <b>W</b>eb <b>A</b>pp for <b>I</b>nteractive <b>M</b>apping via SQL queries, data analysis, and visualizations.</small></h2>
+                <h1 style="text-align: center;">Mapping PEARL</h1>
+                <h2 style="text-align: center;">
+                    The Parasite Extinction Assessment and Red List
+                </h2>
+                <br>
+                <h3 style="text-align: center;">
+                    <em>The world's first parasite conservation database</em>
+                </h3>
+                <br>
                 <h5 style="text-align: center;">Authors of this site: Oliver Muellerklein and Zhongqi Miao</h5>
             </div>
         </div>
     </div>
-    <div id="push-index-bottom1" style="height: 150px"></div>
+    <div id="push-index-bottom1" style="height: 120px"></div>
     <div class="container-fluid" style="background-color: rgba(238, 238, 238, 0.75)">
         <div id="push-index-bottom2" style="height: 100px"></div>
         <div class="row">
@@ -136,27 +127,34 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-12">
-                                <h2>Pick data to use for rendering:</h2>
-                                <br>
-                                <p>We have example data for <b>Temperature Sampling</b> <i>(i.e. temp)</i> as well as <b>Parasite Distribution Models / Maps</b> <i>(i.e. pearl)</i>. There is data for four different species from the PEARL project, including models / maps of the projected current distributions as well as three climate trend models of future distributions.</p>
-                                <br>
+                            <div class="col-md-6">
                                 <form role="form" method='POST' action=''>
                                     <div class="form-group">
                                         <!--input type = "text" name = "query_string" class = "form-control" id = "query-box" placeholder = "Enter query" style = "max-width: 300px;" autofocus required-->
                                         <fieldset class="form-group">
-                                            <legend>Example Data to Use:</legend>
+                                            <legend>Example Species to Use:</legend>
                                             <div class="form-check">
                                                 <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-temp" checked>
-                                                    Use Temperature Sample example data
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-abba" checked>
+                                                    Species: <i>Abbreviata bancrofti</i>
                                                 </label>
                                             </div>
-                                            <hr>
                                             <div class="form-check">
                                                 <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option-pearl">
-                                                    Use PEARL example data (4 species)
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-aslo" checked>
+                                                    Species: <i>Ascocotyle longa</i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-ctca" checked>
+                                                    Species: <i>Ctenocephalides canis</i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option-zylu" checked>
+                                                    Species: <i>Zygocotyle lunata</i>
                                                 </label>
                                             </div>
                                         </fieldset>
@@ -166,15 +164,17 @@
                                     <button type="submit" class="btn btn-default">Render Map</button>
                                 </form>
                             </div>
+                            <div class="col-md-6">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h3><em>Coming soon / beta mode functionality:</em></h3>
                         <br>
                         <ol>
-                            <li><p><a href="/get_calc">Ask simple math <small>(simple string input as math expression currently working but will turn into complicated math queries / data analysis performed on data or subset of data)</small></a></p></li>
+                            <li><p><a href="/get_calc">Ask simple math</a></p></li>
                             <!--li><p><a href="/file_upload">Go to file upload page</a></p></li-->
-                            <li><p>Go to file upload page <small>(SQL or CSV upload - CSV currently working but ignored for this prototype)</small></p></li>
+                            <li><p>Go to file upload page</p></li>
                             <li><p>Time range based on <i>Bootstrap sliders</i></p></li>
                             <li><p>Render map from backend based on user query</p></li>
                         </ol>

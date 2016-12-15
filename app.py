@@ -4,14 +4,16 @@ from flask import abort
 from werkzeug import secure_filename
 from flask_bootstrap import Bootstrap
 import os
-from ewaim import calculate
-from ewaim import get_csv
-from ewaim import mean_lat_long
 import csv
 import errno
 import json
 import psycopg2 as psy
-from static.py.db_util import *
+from functools import wraps
+## from ewaim import calculate
+## from ewaim import get_csv
+## from ewaim import mean_lat_long
+from ewaim import *
+## from static.py.db_util import *
 
 ############################################################
 ############################################################
@@ -53,35 +55,7 @@ def index():
         if request.form['optionsRadios']:
             try:
                 req_raw = request.form['optionsRadios']
-                if req_raw == "option-pearl":
-                    return render_template("pick_pearl_sp.html")
-
-                elif req_raw == "option-temp":
-                    obj_list = get_csv()
-
-                    st_cali = get_state(state = "California")
-                    st_arzn = get_state(state = "Arizona")
-                    st_nvda = get_state(state = "Nevada")
-
-                    init_lat = 36.23418283
-                    init_long = -116.8341902
-                    init_zoom = 6
-                    data_name = "Temperature Samples"
-                    show_points = "true"
-                    show_states = "true"
-                    show_popup = "true"
-                    obj_show = {
-                        "data_name" : data_name,
-                        "init_zoom" : init_zoom,
-                        "init_lat" : init_lat,
-                        "init_long" : init_long,
-                        "show_points" : show_points,
-                        "show_states" : show_states,
-                        "show_popup" : show_popup,
-                    }
-                    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show, st_cali = st_cali)
-
-                elif req_raw == "option-abba":
+                if req_raw == "option-abba":
                     init_zoom = 3
                     init_lat = 11.252725743861603
                     init_long = -0.005242086131886481
@@ -99,7 +73,7 @@ def index():
                         "init_long" : init_long
                     }
                     ## Pull in PEARL metadata
-                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary_full.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
@@ -121,7 +95,7 @@ def index():
                         "init_long" : init_long
                     }
                     ## Pull in PEARL metadata
-                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary_full.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ASCOCOTYLE_LONGA.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
@@ -143,7 +117,7 @@ def index():
                         "init_long" : init_long
                     }
                     ## Pull in PEARL metadata
-                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary_full.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/CTENOCEPHALIDES_CANIS.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
@@ -165,7 +139,7 @@ def index():
                         "init_long" : init_long
                     }
                     ## Pull in PEARL metadata
-                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
+                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary_full.csv")
                     obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ZYGOCOTYLE_LUNATA.csv")
                     return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
 
@@ -177,78 +151,6 @@ def index():
                 return redirect(request.url)
 
     return render_template("index.html")
-
-@app.route("/temp_map", methods = ["GET", "POST"])
-def temp_map():
-    if request.method == "POST":
-        print("\n------")
-        print("POST request in temp_map")
-        print("------\n")
-
-    obj_list = get_csv()
-
-    st_cali = get_state(state = "California")
-    st_arzn = get_state(state = "Arizona")
-    st_nvda = get_state(state = "Nevada")
-
-    init_lat = 36.23418283
-    init_long = -116.8341902
-    init_zoom = 6
-    data_name = "Temperature Samples"
-    show_points = "true"
-    show_states = "true"
-    show_popup = "true"
-    obj_show = {
-        "data_name" : data_name,
-        "init_zoom" : init_zoom,
-        "init_lat" : init_lat,
-        "init_long" : init_long,
-        "show_points" : show_points,
-        "show_states" : show_states,
-        "show_popup" : show_popup,
-    }
-    return render_template("temp_map.html", obj_list = obj_list, obj_show = obj_show, st_cali = st_cali)
-
-@app.route("/pick_pearl_sp", methods = ["GET", "POST"])
-def pick_pearl_sp():
-    if request.method == "POST":
-        print("\n------")
-        print("POST request in pick_pearl_sp")
-        #print("request.form['query_string']: ", request.form['query_string'])
-        print("------\n")
-
-        if request.form['query_string']:
-            try:
-                req_raw = request.form['query_string']
-                if req_raw == "abba":
-                    print("It is abba time...")
-                    init_zoom = 3
-                    init_lat = 11.252725743861603
-                    init_long = -0.005242086131886481
-                    data_name = "Global Parasite Distributions"
-                    pearl_sp = "abbreviata_bancrofti"
-                    prop_name = "Abbreviata bancrofti"
-                    obj_show = {
-                        "pearl_sp" : pearl_sp,
-                        "prop_name" : prop_name,
-                        "data_name" : data_name,
-                        "init_zoom" : init_zoom,
-                        "init_lat" : init_lat,
-                        "init_long" : init_long
-                    }
-                    ## Pull in PEARL metadata
-                    obj_meta = get_csv(csv_path = "./static/csv/pearl_data_summary.csv")
-                    obj_sp = get_csv(csv_path = "./static/csv/pearl_sp/ABBREVIATA_BANCROFTI.csv")
-                    return render_template("pearl_map.html", obj_show = obj_show, obj_meta = obj_meta, obj_sp = obj_sp)
-
-
-                else:
-                    flash("Something went wrong with finding that species...")
-                    return redirect(request.url)
-
-            except:
-                flash("Bad query - could not interpret.")
-                return redirect(request.url)
 
 @app.route("/pearl_map", methods = ["GET", "POST"])
 def pearl_map():
