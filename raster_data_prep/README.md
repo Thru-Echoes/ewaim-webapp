@@ -14,10 +14,23 @@ To install `gdal` for OSX:
   brew install gdal
 ```
 
+Once it is done, install `gdal` python package using conda (recommended and easiest):
+
+```bash
+  conda install gdal
+```
+
+Then, install `rpy2` for `R` connection in `python`:
+
+```bash
+  pip install rpy2
+```
+
 To install `R`, go to this [link](https://www.r-project.org/). When `R` is installed, in R, type:
 
 ```R
   install.package('raster')
+  install.package('rgdal')
 ```
 
 ## Use
