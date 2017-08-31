@@ -7,7 +7,7 @@
 ```tex
 @misc{Ewaim2017,
   author = {Muellerklein, OC and Miao, Z},
-  title = {Project Title},
+  title = {EWAIM: an Extensible Web App for Interactive Mapping},
   year = {2017},
   publisher = {GitHub},
   journal = {GitHub repository},
