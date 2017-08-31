@@ -12,7 +12,7 @@
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/Thru-Echoes/ewaim-webapp}},
-  commit = {ab56be55c2e92bd8c4877ff429a36de6803dcee4}
+  commit = {6507427e41f7bd9231d3759dbdd95cc516ae059c}
 }
 ```
 
