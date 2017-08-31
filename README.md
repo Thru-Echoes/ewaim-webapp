@@ -2,6 +2,20 @@
 
 ## 1. EWAIM: an Extensible Web App for Interactive Mapping
 
+#### Cite this repository
+
+```tex
+@misc{Ewaim2017,
+  author = {Muellerklein, OC and Miao, Z},
+  title = {Project Title},
+  year = {2017},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Thru-Echoes/ewaim-webapp}},
+  commit = {ab56be55c2e92bd8c4877ff429a36de6803dcee4}
+}
+```
+
 #### 1.1 Overview
 
 **EWAIM-webapp** is a web mapping app that uses *Leaflet x D3 (Javascript)* on the frontend and *Flask x PostGreSQL* on the backend. In addition, we include a directory titled **EWAIM** that contains a Python package for some simple data analysis and utility functionality - used in the backend. The **EWAIM** package has *continuous testing* through Travis-CL. Users of this app (for now) need to run the *setup.py* file to make the EWAIM module (*EWAIM is imported and used in the main Flask app.py file*). Our future development includes building further data processing and analysis functions as well as **Species Distribution Model** functions in the EWAIM package focused on spatial, movement, and time series data.
